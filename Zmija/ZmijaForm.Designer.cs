@@ -1,6 +1,6 @@
 ﻿namespace Zmija
 {
-    partial class Form1
+    partial class ZmijaForm
     {
         /// <summary>
         /// Required designer variable.
