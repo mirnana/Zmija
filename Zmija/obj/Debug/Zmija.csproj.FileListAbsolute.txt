@@ -8,3 +8,4 @@ C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.csproj.GenerateResource.
 C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.csproj.CoreCompileInputs.cache
 C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.exe
 C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.pdb
+C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.ZmijaForm.resources

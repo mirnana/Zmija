@@ -1,20 +1,247 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Zmija
 {
     public partial class ZmijaForm : Form
     {
+        private Unit Food = new Unit(); // food moze biti isto lista hrane, mozemo napraviti klase BadFood i GoodFood koje ce imat los tj dobar ucinak na zmiju
+        private List<Unit> Snake = new List<Unit>();
+        private int scoreInt = 0;
+        private int lives = 3;
+        private bool left, right, up, down;
+        private int rows, cols;
+
+        Random rand = new Random();
+
         public ZmijaForm()
         {
             InitializeComponent();
+            new Settings();
+        }
+
+        private void ZmijaForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.ToString() == Settings.GoLeftKey && Settings.Direction != "right")
+            {
+                left = true;
+            }
+            if (e.KeyCode.ToString() == Settings.GoRightKey && Settings.Direction != "left")
+            {
+                right = true;
+            }
+            if (e.KeyCode.ToString() == Settings.GoUpKey && Settings.Direction != "down")
+            {
+                up = true;
+            }
+            if (e.KeyCode.ToString() == Settings.GoDownKey && Settings.Direction != "up")
+            {
+                down = true;
+            }
+
+            // dodati ifove za prozore s informacijama i postavkama
+        }
+        private void ZmijaForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.ToString() == Settings.GoLeftKey)
+            {
+                left = false;
+            }
+            if (e.KeyCode.ToString() == Settings.GoRightKey)
+            {
+                right = false;
+            }
+            if (e.KeyCode.ToString() == Settings.GoUpKey)
+            {
+                up = false;
+            }
+            if (e.KeyCode.ToString() == Settings.GoDownKey)
+            {
+                down = false;
+            }
+
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (left)
+            {
+                Settings.Direction = "left";
+            }
+            if (right)
+            {
+                Settings.Direction = "right";
+            }
+            if (up)
+            {
+                Settings.Direction = "up";
+            }
+            if (down)
+            {
+                Settings.Direction = "down";
+            }
+
+            for (int i = Snake.Count - 1; i >= 0; i--)
+            {
+                if (i == 0)
+                {
+                    switch (Settings.Direction)
+                    {
+                        case "left":
+                            Snake[i].X--;
+                            break;
+                        case "right":
+                            Snake[i].X++;
+                            break;
+                        case "up":
+                            Snake[i].Y--;
+                            break;
+                        case "down":
+                            Snake[i].Y++;
+                            break;
+                    }
+
+                    if (Snake[i].X < 0 || Snake[i].Y < 0 || Snake[i].X > cols || Snake[i].Y > rows)
+                    {
+                        DecreaseLives();
+                    }
+
+                    for (int j = 1; j < Snake.Count; j++)
+                    {
+                        if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
+                        {
+                            DecreaseLives();
+                        }
+                    }
+
+                    if (Snake[i].X == Food.X && Snake[i].Y == Food.Y)
+                    {
+                        EatFood();
+                    }
+                }
+                else
+                {
+                    Snake[i].X = Snake[i - 1].X;
+                    Snake[i].Y = Snake[i - 1].Y;
+                }
+            }
+            canvas.Invalidate();
+        }
+
+        private void start_Click(object sender, EventArgs e)
+        {
+            RestartGame();
+        }
+
+        private void canvas_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Brush color;
+
+            for (int i = 0; i < Snake.Count; i++)
+            {
+                if (i == 0)
+                {
+                    color = Brushes.Black;
+                }
+                else
+                {
+                    color = Brushes.Gray;
+                }
+
+                g.FillRectangle
+                    (
+                        color,
+                        new Rectangle
+                        (
+                            Snake[i].X * Settings.UnitWidth,
+                            Snake[i].Y * Settings.UnitHeight,
+                            Settings.UnitWidth,
+                            Settings.UnitHeight
+                        )
+                    );
+            }
+
+            g.FillRectangle
+                (
+                    Brushes.DarkRed,
+                    new Rectangle
+                    (
+                        Food.X * Settings.UnitWidth,
+                        Food.Y * Settings.UnitHeight,
+                        Settings.UnitWidth,
+                        Settings.UnitHeight
+                    )
+                );
+        }
+
+        private void DecreaseLives()
+        {
+            lives--;
+            score.Text = "BODOVI: " + scoreInt + Environment.NewLine + "ŽIVOTI: " + lives;
+
+            if (lives <= 0)
+            {
+                GameOver();
+            }
+            else
+            {
+                Snake[0].X = 10;
+                Snake[0].Y = 10;
+                canvas.Invalidate();
+            }
+        }
+
+        private void GameOver()
+        {
+            timer.Stop();
+            start.Enabled = true;
+        }
+
+        private void EatFood()
+        {
+            // npr:
+            // ak je dobra hrana, dodaj novi Unit na kraj zmije
+            // ak je losa hrana, ukloni zadnji Unit zmije
+
+            scoreInt += 1;
+            score.Text = "BODOVI: " + scoreInt + Environment.NewLine + "ŽIVOTI: " + lives;
+
+            Unit rear = new Unit
+            {
+                X = Snake[Snake.Count - 1].X,
+                Y = Snake[Snake.Count - 1].Y,
+            };
+            Snake.Add(rear);
+
+            Food = new Unit { X = rand.Next(2, cols), Y = rand.Next(2, rows) };
+        }
+
+        private void RestartGame()
+        {
+            rows = canvas.Height / Settings.UnitHeight - 1;
+            cols = canvas.Width / Settings.UnitWidth - 1;
+
+            Snake.Clear();
+
+            start.Enabled = false;
+            lives = 3;
+            scoreInt = 0;
+            score.Text = "BODOVI: " + scoreInt + Environment.NewLine + "ŽIVOTI: " + lives;
+
+            Unit head = new Unit { X = 10, Y = 10 };
+            Snake.Add(head);
+
+            for (int i = 0; i < 5; i++)
+            {
+                Snake.Add(new Unit());
+            }
+
+            Food = new Unit { X = rand.Next(2, cols), Y = rand.Next(2, rows) };
+
+            timer.Start();
         }
     }
 }
