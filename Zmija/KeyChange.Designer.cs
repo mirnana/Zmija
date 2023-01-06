@@ -59,7 +59,7 @@
             this.changeKey_button.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.changeKey_button.Location = new System.Drawing.Point(0, 57);
             this.changeKey_button.Name = "changeKey_button";
-            this.changeKey_button.Size = new System.Drawing.Size(200, 23);
+            this.changeKey_button.Size = new System.Drawing.Size(250, 23);
             this.changeKey_button.TabIndex = 5;
             this.changeKey_button.Text = "IZMIJENI";
             this.changeKey_button.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@
             this.functionality_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.functionality_label.Location = new System.Drawing.Point(90, 3);
             this.functionality_label.Name = "functionality_label";
-            this.functionality_label.Size = new System.Drawing.Size(100, 20);
+            this.functionality_label.Size = new System.Drawing.Size(150, 20);
             this.functionality_label.TabIndex = 6;
             // 
             // key_label
@@ -79,13 +79,13 @@
             this.key_label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.key_label.Location = new System.Drawing.Point(90, 33);
             this.key_label.Name = "key_label";
-            this.key_label.Size = new System.Drawing.Size(100, 20);
+            this.key_label.Size = new System.Drawing.Size(150, 20);
             this.key_label.TabIndex = 7;
             // 
             // command_label
             // 
             this.command_label.AutoSize = true;
-            this.command_label.Location = new System.Drawing.Point(49, 34);
+            this.command_label.Location = new System.Drawing.Point(41, 34);
             this.command_label.Name = "command_label";
             this.command_label.Size = new System.Drawing.Size(0, 13);
             this.command_label.TabIndex = 8;
@@ -101,7 +101,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "KeyChange";
-            this.Size = new System.Drawing.Size(200, 80);
+            this.Size = new System.Drawing.Size(250, 80);
             this.Enter += new System.EventHandler(this.KeyChange_Enter);
             this.Leave += new System.EventHandler(this.KeyChange_Leave);
             this.ResumeLayout(false);
