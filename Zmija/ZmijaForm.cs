@@ -11,6 +11,7 @@ namespace Zmija
         private List<Unit> Snake = new List<Unit>();
         private int scoreInt = 0;
         private int lives = 3;
+        private int factor = 1;
         private bool left, right, up, down;
         private int rows, cols;
 
@@ -29,13 +30,21 @@ namespace Zmija
             // otvaranje drugih prozora:
             if (e.Control && e.KeyCode.ToString() == settings.SettingsKey)
             {
+                timer.Stop();
                 KeySettings s = new KeySettings();
                 s.ShowDialog();
+                timer.Start();
             }
 
             // kretanje zmije:
             if (start.Enabled == false)
             {
+                if ((e.KeyCode >= Keys.NumPad1 && e.KeyCode <= Keys.NumPad9)
+                    || (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D9))
+                {
+                    string s = e.KeyCode.ToString();
+                    factor = int.Parse(s.Substring(s.Length - 1));
+                }
                 if (e.KeyCode.ToString() == settings.GoLeftKey && settings.Direction != "right")
                 {
                     left = true;
@@ -58,6 +67,10 @@ namespace Zmija
         }
         private void ZmijaForm_KeyUp(object sender, KeyEventArgs e)
         {
+            if (factor != 1)
+            {
+                factor = 1;
+            }
             if (e.KeyCode.ToString() == settings.GoLeftKey)
             {
                 left = false;
@@ -74,7 +87,6 @@ namespace Zmija
             {
                 down = false;
             }
-
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -96,50 +108,54 @@ namespace Zmija
                 settings.Direction = "down";
             }
 
-            for (int i = Snake.Count - 1; i >= 0; i--)
+            for (int k = 0; k < factor; k++) 
             {
-                if (i == 0)
+                for (int i = Snake.Count - 1; i >= 0; i--)
                 {
-                    switch (settings.Direction)
+                    if (i == 0)
                     {
-                        case "left":
-                            Snake[i].X--;
-                            break;
-                        case "right":
-                            Snake[i].X++;
-                            break;
-                        case "up":
-                            Snake[i].Y--;
-                            break;
-                        case "down":
-                            Snake[i].Y++;
-                            break;
-                    }
+                        switch (settings.Direction)
+                        {
+                            case "left":
+                                Snake[i].X--;
+                                break;
+                            case "right":
+                                Snake[i].X++;
+                                break;
+                            case "up":
+                                Snake[i].Y--;
+                                break;
+                            case "down":
+                                Snake[i].Y++;
+                                break;
+                        }
 
-                    if (Snake[i].X < 0 || Snake[i].Y < 0 || Snake[i].X > cols || Snake[i].Y > rows)
-                    {
-                        DecreaseLives();
-                    }
-
-                    for (int j = 1; j < Snake.Count; j++)
-                    {
-                        if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
+                        if (Snake[i].X < 0 || Snake[i].Y < 0 || Snake[i].X > cols || Snake[i].Y > rows)
                         {
                             DecreaseLives();
                         }
-                    }
 
-                    if (Snake[i].X == Food.X && Snake[i].Y == Food.Y)
-                    {
-                        EatFood();
+                        for (int j = 1; j < Snake.Count; j++)
+                        {
+                            if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
+                            {
+                                DecreaseLives();
+                            }
+                        }
+
+                        if (Snake[i].X == Food.X && Snake[i].Y == Food.Y)
+                        {
+                            EatFood();
+                        }
                     }
-                }
-                else
-                {
-                    Snake[i].X = Snake[i - 1].X;
-                    Snake[i].Y = Snake[i - 1].Y;
+                    else
+                    {
+                        Snake[i].X = Snake[i - 1].X;
+                        Snake[i].Y = Snake[i - 1].Y;
+                    }
                 }
             }
+            
             canvas.Invalidate();
         }
 
