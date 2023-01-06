@@ -27,6 +27,11 @@ namespace Zmija
 
         private void ZmijaForm_KeyDown(object sender, KeyEventArgs e)
         {
+            if(e.KeyCode.ToString() == settings.CloseKey)
+            {
+                this.Close();
+            }
+            
             // otvaranje drugih prozora:
             if (e.Control && e.KeyCode.ToString() == settings.SettingsKey)
             {

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Zmija.Properties;
 
 namespace Zmija
 {
@@ -14,7 +15,16 @@ namespace Zmija
     {
         public KeySettings()
         {
+            this.KeyPreview = true;
             InitializeComponent();
+        }
+
+        private void KeySettings_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.ToString() == ZmijaForm.settings.CloseKey)
+            {
+                this.Close();
+            }
         }
 
         private void izmijeni_Click_left(object sender, string e)
@@ -85,6 +95,34 @@ namespace Zmija
             ((KeyChange)sender).key = ZmijaForm.settings.GoDownKey;
         }
 
+        private void keyChange_keySettings_izmijeni_Click(object sender, string e)
+        {
+            ZmijaForm.settings.SettingsKey = ((KeyChange)sender).key;
+        }
 
+        private void keyChange_keySettings_Load(object sender, EventArgs e)
+        {
+            ((KeyChange)sender).key = ZmijaForm.settings.SettingsKey;
+        }
+
+        private void keyChange_instructions_izmijeni_Click(object sender, string e)
+        {
+            ZmijaForm.settings.InstructionsKey = ((KeyChange)sender).key;
+        }
+
+        private void keyChange_instructions_Load(object sender, EventArgs e)
+        {
+            ((KeyChange)sender).key = ZmijaForm.settings.InstructionsKey;
+        }
+
+        private void keyChange_close_izmijeni_Click(object sender, string e)
+        {
+            ZmijaForm.settings.CloseKey = ((KeyChange)sender).key;
+        }
+
+        private void keyChange_close_Load(object sender, EventArgs e)
+        {
+            ((KeyChange)sender).key = ZmijaForm.settings.CloseKey;
+        }
     }
 }

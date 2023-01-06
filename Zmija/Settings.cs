@@ -19,6 +19,7 @@ namespace Zmija
         public string GoDownKey { get; set; }
         public string SettingsKey { get; set; }
         public string InstructionsKey { get; set; }
+        public string CloseKey { get; set; }
         
         public Settings()
         {
@@ -32,6 +33,7 @@ namespace Zmija
             GoDownKey = Keys.Down.ToString();
             SettingsKey = Keys.P.ToString();
             InstructionsKey = Keys.U.ToString();
+            CloseKey = Keys.Escape.ToString();
         }
 
         public void ChangeKey(string key)
