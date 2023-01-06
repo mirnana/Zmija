@@ -15,49 +15,62 @@ namespace Zmija
         private int rows, cols;
 
         Random rand = new Random();
+        public static Settings settings;
 
         public ZmijaForm()
         {
+            this.KeyPreview = true;
             InitializeComponent();
-            new Settings();
+            settings = new Settings();
         }
 
         private void ZmijaForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode.ToString() == Settings.GoLeftKey && Settings.Direction != "right")
+            // otvaranje drugih prozora:
+            if (e.Control && e.KeyCode.ToString() == settings.SettingsKey)
             {
-                left = true;
-            }
-            if (e.KeyCode.ToString() == Settings.GoRightKey && Settings.Direction != "left")
-            {
-                right = true;
-            }
-            if (e.KeyCode.ToString() == Settings.GoUpKey && Settings.Direction != "down")
-            {
-                up = true;
-            }
-            if (e.KeyCode.ToString() == Settings.GoDownKey && Settings.Direction != "up")
-            {
-                down = true;
+                KeySettings s = new KeySettings();
+                s.ShowDialog();
             }
 
-            // dodati ifove za prozore s informacijama i postavkama
+            // kretanje zmije:
+            if (start.Enabled == false)
+            {
+                if (e.KeyCode.ToString() == settings.GoLeftKey && settings.Direction != "right")
+                {
+                    left = true;
+                }
+                if (e.KeyCode.ToString() == settings.GoRightKey && settings.Direction != "left")
+                {
+                    right = true;
+                }
+                if (e.KeyCode.ToString() == settings.GoUpKey && settings.Direction != "down")
+                {
+                    up = true;
+                }
+                if (e.KeyCode.ToString() == settings.GoDownKey && settings.Direction != "up")
+                {
+                    down = true;
+                }
+            }
+            
+            
         }
         private void ZmijaForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode.ToString() == Settings.GoLeftKey)
+            if (e.KeyCode.ToString() == settings.GoLeftKey)
             {
                 left = false;
             }
-            if (e.KeyCode.ToString() == Settings.GoRightKey)
+            if (e.KeyCode.ToString() == settings.GoRightKey)
             {
                 right = false;
             }
-            if (e.KeyCode.ToString() == Settings.GoUpKey)
+            if (e.KeyCode.ToString() == settings.GoUpKey)
             {
                 up = false;
             }
-            if (e.KeyCode.ToString() == Settings.GoDownKey)
+            if (e.KeyCode.ToString() == settings.GoDownKey)
             {
                 down = false;
             }
@@ -68,26 +81,26 @@ namespace Zmija
         {
             if (left)
             {
-                Settings.Direction = "left";
+                settings.Direction = "left";
             }
             if (right)
             {
-                Settings.Direction = "right";
+                settings.Direction = "right";
             }
             if (up)
             {
-                Settings.Direction = "up";
+                settings.Direction = "up";
             }
             if (down)
             {
-                Settings.Direction = "down";
+                settings.Direction = "down";
             }
 
             for (int i = Snake.Count - 1; i >= 0; i--)
             {
                 if (i == 0)
                 {
-                    switch (Settings.Direction)
+                    switch (settings.Direction)
                     {
                         case "left":
                             Snake[i].X--;
@@ -156,10 +169,10 @@ namespace Zmija
                         color,
                         new Rectangle
                         (
-                            Snake[i].X * Settings.UnitWidth,
-                            Snake[i].Y * Settings.UnitHeight,
-                            Settings.UnitWidth,
-                            Settings.UnitHeight
+                            Snake[i].X * settings.UnitWidth,
+                            Snake[i].Y * settings.UnitHeight,
+                            settings.UnitWidth,
+                            settings.UnitHeight
                         )
                     );
             }
@@ -169,10 +182,10 @@ namespace Zmija
                     Brushes.DarkRed,
                     new Rectangle
                     (
-                        Food.X * Settings.UnitWidth,
-                        Food.Y * Settings.UnitHeight,
-                        Settings.UnitWidth,
-                        Settings.UnitHeight
+                        Food.X * settings.UnitWidth,
+                        Food.Y * settings.UnitHeight,
+                        settings.UnitWidth,
+                        settings.UnitHeight
                     )
                 );
         }
@@ -221,8 +234,8 @@ namespace Zmija
 
         private void RestartGame()
         {
-            rows = canvas.Height / Settings.UnitHeight - 1;
-            cols = canvas.Width / Settings.UnitWidth - 1;
+            rows = canvas.Height / settings.UnitHeight - 1;
+            cols = canvas.Width / settings.UnitWidth - 1;
 
             Snake.Clear();
 

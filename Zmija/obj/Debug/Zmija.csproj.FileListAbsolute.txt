@@ -9,3 +9,5 @@ C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.csproj.CoreCompileInputs
 C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.exe
 C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.pdb
 C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.ZmijaForm.resources
+C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.KeyChange.resources
+C:\Users\Mirna\source\repos\Zmija\Zmija\obj\Debug\Zmija.KeySettings.resources
