@@ -33,7 +33,20 @@ namespace Zmija
                 timer.Stop();
                 KeySettings s = new KeySettings();
                 s.ShowDialog();
-                timer.Start();
+                if (!start.Enabled)
+                {
+                    timer.Start();
+                }
+            }
+            if (e.Control && e.KeyCode.ToString() == settings.InstructionsKey)
+            {
+                timer.Stop();
+                Instructions s = new Instructions();
+                s.ShowDialog();
+                if (!start.Enabled)
+                {
+                    timer.Start();
+                }
             }
 
             // kretanje zmije:
