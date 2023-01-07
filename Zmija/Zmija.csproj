@@ -46,7 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BadFood.cs" />
+    <Compile Include="BasicFood.cs" />
+    <Compile Include="DeathFood.cs" />
+    <Compile Include="FastFood.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="SlowFood.cs" />
+    <Compile Include="SuperFood.cs" />
+    <Compile Include="TimedFood.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="ZmijaForm.cs">
       <SubType>Form</SubType>
