@@ -20,3 +20,5 @@ C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.csproj.GenerateResource.cache
 C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.csproj.CoreCompileInputs.cache
 C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.exe
 C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.pdb
+C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.Instructions.resources
+C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.KeyChange.resources

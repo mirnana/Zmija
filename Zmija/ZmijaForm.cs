@@ -13,6 +13,7 @@ namespace Zmija
         private List<Unit> Snake = new List<Unit>();
         private int scoreInt = 0;
         private int lives = 3;
+        private int factor = 1;
         private bool left, right, up, down;
         private int rows, cols;
         private List<Type> types = new List<Type>();
@@ -20,53 +21,95 @@ namespace Zmija
         private int levelLimit;
 
         Random rand = new Random();
+        public static Settings settings;
 
         public ZmijaForm()
         {
+            this.KeyPreview = true;
             InitializeComponent();
-            new Settings();
+            settings = new Settings();
         }
 
         private void ZmijaForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode.ToString() == Settings.GoLeftKey && Settings.Direction != "right")
+            if (e.KeyCode.ToString() == settings.CloseKey)
             {
-                left = true;
-            }
-            if (e.KeyCode.ToString() == Settings.GoRightKey && Settings.Direction != "left")
-            {
-                right = true;
-            }
-            if (e.KeyCode.ToString() == Settings.GoUpKey && Settings.Direction != "down")
-            {
-                up = true;
-            }
-            if (e.KeyCode.ToString() == Settings.GoDownKey && Settings.Direction != "up")
-            {
-                down = true;
+                this.Close();
             }
 
-            // dodati ifove za prozore s informacijama i postavkama
+            // otvaranje drugih prozora:
+            if (e.Control && e.KeyCode.ToString() == settings.SettingsKey)
+            {
+                timer.Stop();
+                KeySettings s = new KeySettings();
+                s.ShowDialog();
+                if (!start.Enabled)
+                {
+                    timer.Start();
+                }
+            }
+            if (e.Control && e.KeyCode.ToString() == settings.InstructionsKey)
+            {
+                timer.Stop();
+                Instructions s = new Instructions();
+                s.ShowDialog();
+                if (!start.Enabled)
+                {
+                    timer.Start();
+                }
+            }
+
+            // kretanje zmije:
+            if (start.Enabled == false)
+            {
+                if ((e.KeyCode >= Keys.NumPad1 && e.KeyCode <= Keys.NumPad9)
+                    || (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D9))
+                {
+                    string s = e.KeyCode.ToString();
+                    factor = int.Parse(s.Substring(s.Length - 1));
+                }
+                if (e.KeyCode.ToString() == settings.GoLeftKey && settings.Direction != "right")
+                {
+                    left = true;
+                }
+                if (e.KeyCode.ToString() == settings.GoRightKey && settings.Direction != "left")
+                {
+                    right = true;
+                }
+                if (e.KeyCode.ToString() == settings.GoUpKey && settings.Direction != "down")
+                {
+                    up = true;
+                }
+                if (e.KeyCode.ToString() == settings.GoDownKey && settings.Direction != "up")
+                {
+                    down = true;
+                }
+            }
+
+
         }
         private void ZmijaForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode.ToString() == Settings.GoLeftKey)
+            if (factor != 1)
+            {
+                factor = 1;
+            }
+            if (e.KeyCode.ToString() == settings.GoLeftKey)
             {
                 left = false;
             }
-            if (e.KeyCode.ToString() == Settings.GoRightKey)
+            if (e.KeyCode.ToString() == settings.GoRightKey)
             {
                 right = false;
             }
-            if (e.KeyCode.ToString() == Settings.GoUpKey)
+            if (e.KeyCode.ToString() == settings.GoUpKey)
             {
                 up = false;
             }
-            if (e.KeyCode.ToString() == Settings.GoDownKey)
+            if (e.KeyCode.ToString() == settings.GoDownKey)
             {
                 down = false;
             }
-
         }
 
         private BasicFood CreateFood(List<Type> availableTypes)
@@ -85,7 +128,7 @@ namespace Zmija
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            if(level < 10 && scoreInt >= levelLimit )
+            if (level < 10 && scoreInt >= levelLimit)
             {
                 // provjeriti, dodati tidove, promjene polja
                 switch (level)
@@ -133,76 +176,80 @@ namespace Zmija
 
             if (left)
             {
-                Settings.Direction = "left";
+                settings.Direction = "left";
             }
             if (right)
             {
-                Settings.Direction = "right";
+                settings.Direction = "right";
             }
             if (up)
             {
-                Settings.Direction = "up";
+                settings.Direction = "up";
             }
             if (down)
             {
-                Settings.Direction = "down";
+                settings.Direction = "down";
             }
 
-            for (int i = Snake.Count - 1; i >= 0; i--)
+            for (int k = 0; k < factor; k++)
             {
-                if (i == 0)
+                for (int i = Snake.Count - 1; i >= 0; i--)
                 {
-                    switch (Settings.Direction)
+                    if (i == 0)
                     {
-                        case "left":
-                            Snake[i].X--;
-                            break;
-                        case "right":
-                            Snake[i].X++;
-                            break;
-                        case "up":
-                            Snake[i].Y--;
-                            break;
-                        case "down":
-                            Snake[i].Y++;
-                            break;
-                    }
+                        switch (settings.Direction)
+                        {
+                            case "left":
+                                Snake[i].X--;
+                                break;
+                            case "right":
+                                Snake[i].X++;
+                                break;
+                            case "up":
+                                Snake[i].Y--;
+                                break;
+                            case "down":
+                                Snake[i].Y++;
+                                break;
+                        }
 
-                    if (Snake[i].X < 0 || Snake[i].Y < 0 || Snake[i].X > cols || Snake[i].Y > rows)
-                    {
-                        DecreaseLives();
-                    }
-
-                    for (int j = 1; j < Snake.Count; j++)
-                    {
-                        if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
+                        if (Snake[i].X < 0 || Snake[i].Y < 0 || Snake[i].X > cols || Snake[i].Y > rows)
                         {
                             DecreaseLives();
                         }
-                    }
 
-                    // prepraviti da ne pretrazuje cijelu listu?
-                    for(int j = 0; j < Food.Count; j++)
-                    {
-                        if (Snake[i].X == Food[j].X && Snake[i].Y == Food[j].Y)
+                        for (int j = 1; j < Snake.Count; j++)
                         {
-                            EatFood(Food[j]);
+                            if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
+                            {
+                                DecreaseLives();
+                            }
+                        }
+
+                        // prepraviti da ne pretrazuje cijelu listu?
+                        for (int j = 0; j < Food.Count; j++)
+                        {
+                            if (Snake[i].X == Food[j].X && Snake[i].Y == Food[j].Y)
+                            {
+                                EatFood(Food[j]);
+                            }
                         }
                     }
+                    else
+                    {
+                        Snake[i].X = Snake[i - 1].X;
+                        Snake[i].Y = Snake[i - 1].Y;
+                    }
                 }
-                else
+                for (int i = 0; i < Food.Count; i++)
                 {
-                    Snake[i].X = Snake[i - 1].X;
-                    Snake[i].Y = Snake[i - 1].Y;
+                    if (Food[i] is TimedFood && !Food[i].CheckTimer())
+                    {
+                        Food[i] = CreateFood(types);
+                    }
                 }
             }
-            for (int i = 0; i < Food.Count; i++)
-            {
-                if (Food[i] is TimedFood && !Food[i].CheckTimer())
-                {
-                    Food[i] = CreateFood(types);
-                }
-            }
+
             canvas.Invalidate();
         }
 
@@ -232,25 +279,25 @@ namespace Zmija
                         color,
                         new Rectangle
                         (
-                            Snake[i].X * Settings.UnitWidth,
-                            Snake[i].Y * Settings.UnitHeight,
-                            Settings.UnitWidth,
-                            Settings.UnitHeight
+                            Snake[i].X * settings.UnitWidth,
+                            Snake[i].Y * settings.UnitHeight,
+                            settings.UnitWidth,
+                            settings.UnitHeight
                         )
                     );
             }
 
-            for(int i = 0; i < Food.Count; i++)
+            for (int i = 0; i < Food.Count; i++)
             {
                 g.FillRectangle
                 (
                     Food[i].Color,
                     new Rectangle
                     (
-                        Food[i].X * Settings.UnitWidth,
-                        Food[i].Y * Settings.UnitHeight,
-                        Settings.UnitWidth,
-                        Settings.UnitHeight
+                        Food[i].X * settings.UnitWidth,
+                        Food[i].Y * settings.UnitHeight,
+                        settings.UnitWidth,
+                        settings.UnitHeight
                     )
                 );
             }
@@ -320,8 +367,8 @@ namespace Zmija
 
         private void RestartGame()
         {
-            rows = canvas.Height / Settings.UnitHeight - 1;
-            cols = canvas.Width / Settings.UnitWidth - 1;
+            rows = canvas.Height / settings.UnitHeight - 1;
+            cols = canvas.Width / settings.UnitWidth - 1;
 
             Snake.Clear();
 
