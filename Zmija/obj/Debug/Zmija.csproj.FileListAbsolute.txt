@@ -22,3 +22,16 @@ C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.exe
 C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.pdb
 C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.Instructions.resources
 C:\Users\Admin\Desktop\snake\Zmija\obj\Debug\Zmija.KeyChange.resources
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\bin\Debug\Zmija.exe.config
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\bin\Debug\Zmija.exe
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\bin\Debug\Zmija.pdb
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.csproj.AssemblyReference.cache
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.csproj.SuggestedBindingRedirects.cache
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.Instructions.resources
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.KeyChange.resources
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.Properties.Resources.resources
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.ZmijaForm.resources
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.csproj.GenerateResource.cache
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.csproj.CoreCompileInputs.cache
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.exe
+C:\Users\Nena\Desktop\Faks\Zmija\Zmija\obj\Debug\Zmija.pdb

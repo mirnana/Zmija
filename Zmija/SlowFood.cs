@@ -14,10 +14,12 @@ namespace Zmija
             Color = Brushes.Yellow;
         }
 
-        public override (int, int) ActivateEffect(List<Unit> Snake, int score, int lives)
+        public override (int, int, int) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             //change speed (return?)
-            return (score + Points, lives);
+            if (timer <= 2000)
+                timer += 50; 
+            return (score + Points, lives, timer);
         }
     }
 }
