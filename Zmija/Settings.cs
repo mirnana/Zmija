@@ -20,7 +20,7 @@ namespace Zmija
         public string SettingsKey { get; set; }
         public string InstructionsKey { get; set; }
         public string CloseKey { get; set; }
-
+        
         public Settings()
         {
             UnitWidth = 16;

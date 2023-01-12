@@ -69,7 +69,7 @@
             this.help.Name = "help";
             this.help.Size = new System.Drawing.Size(240, 50);
             this.help.TabIndex = 4;
-            this.help.Text = "POSTAVKE: *kombinacija tipki*\r\nINFORMACIJE: *druga kombinacija*";
+            this.help.Text = "POSTAVKE: ctrl  + P\r\nUPUTE: ctrl + U";
             // 
             // score
             // 

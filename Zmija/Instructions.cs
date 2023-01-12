@@ -14,7 +14,16 @@ namespace Zmija
     {
         public Instructions()
         {
+            this.KeyPreview = true;
             InitializeComponent();
+        }
+
+        private void Instructions_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.ToString() == ZmijaForm.settings.CloseKey)
+            {
+                this.Close();
+            }
         }
     }
 }
