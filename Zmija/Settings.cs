@@ -7,17 +7,20 @@ using System.Windows.Forms;
 
 namespace Zmija
 {
-    internal class Settings
+    public class Settings
     {
-        public static int UnitWidth { get; set; }
-        public static int UnitHeight { get; set; }
-        public static string Direction { get; set; }
+        public int UnitWidth { get; set; }
+        public int UnitHeight { get; set; }
+        public string Direction { get; set; }
 
-        public static string GoLeftKey { get; set; }
-        public static string GoRightKey { get; set; }
-        public static string GoUpKey { get; set; }
-        public static string GoDownKey { get; set; }
-        
+        public string GoLeftKey { get; set; }
+        public string GoRightKey { get; set; }
+        public string GoUpKey { get; set; }
+        public string GoDownKey { get; set; }
+        public string SettingsKey { get; set; }
+        public string InstructionsKey { get; set; }
+        public string CloseKey { get; set; }
+
         public Settings()
         {
             UnitWidth = 16;
@@ -28,6 +31,9 @@ namespace Zmija
             GoRightKey = Keys.Right.ToString();
             GoUpKey = Keys.Up.ToString();
             GoDownKey = Keys.Down.ToString();
+            SettingsKey = Keys.P.ToString();
+            InstructionsKey = Keys.U.ToString();
+            CloseKey = Keys.Escape.ToString();
         }
 
         public void ChangeKey(string key)
