@@ -111,7 +111,7 @@ namespace Zmija
                 down = false;
             }
         }
-
+        //note to self, napraviti provjeru postoji li na ovom polju vec neka hrana
         private BasicFood CreateFood(List<Type> availableTypes)
         {
             Type type = availableTypes[rand.Next(availableTypes.Count)];
@@ -126,9 +126,27 @@ namespace Zmija
             return (BasicFood)food;
         }
 
+        private BasicFood CreateBrick(int xPosition, int yPosition)
+        {
+            Type type = typeof(BorderBlock);
+            object brick = Activator.CreateInstance(type);
+
+            PropertyInfo xProperty = type.GetProperty("X");
+            xProperty.SetValue(brick, xPosition);
+
+            PropertyInfo yProperty = type.GetProperty("Y");
+            yProperty.SetValue(brick, yPosition);
+
+            return (BasicFood)brick;
+        }
+
+
+
+        //U sljedecu funkciju se ulazi svaki put kada zmija napravi pomak
+        //a na levelu je vecem od 1 pa sam dodala par uvjeta da se odvrsi samo jednom po levelu
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (level < 10 && scoreInt >= levelLimit)
+            if (level < 10 && scoreInt >= level * levelLimit)
             {
                 // provjeriti, dodati tidove, promjene polja
                 switch (level)
@@ -136,28 +154,33 @@ namespace Zmija
                     case 1:
                         level = 2;
                         // levelLimit = 250;     // ako zelimo druge granice
-                        types.Add(typeof(BadFood));
-                        Food.Add(CreateFood(types));
+                        if(!types.Contains(typeof(BadFood)))
+                            types.Add(typeof(BadFood));
                         break;
                     case 2:
                         level = 3;
-                        types.Add(typeof(FastFood));
+                        if (!types.Contains(typeof(FastFood)))
+                            types.Add(typeof(FastFood));
                         break;
                     case 3:
                         level = 4;
-                        types.Add(typeof(SlowFood));
+                        if (!types.Contains(typeof(SlowFood)))
+                            types.Add(typeof(SlowFood));
                         break;
                     case 4:
                         level = 5;
-                        Food.Add(CreateFood(types));
+                        if (!types.Contains(typeof(ShortFood)))
+                            types.Add(typeof(ShortFood));
                         break;
                     case 5:
                         level = 6;
-                        types.Add(typeof(SuperFood));
+                        if (!types.Contains(typeof(SuperFood)))
+                            types.Add(typeof(SuperFood));
                         break;
                     case 6:
                         level = 7;
-                        types.Add(typeof(DeathFood));
+                        if (!types.Contains(typeof(DeathFood)))
+                            types.Add(typeof(DeathFood));
                         break;
                     case 7:
                         level = 8;
@@ -170,7 +193,15 @@ namespace Zmija
                         level = 10;
                         break;
                 }
-                levelLimit = level * 100;
+                Food.Add(CreateFood(types));
+                for (int i = 0; i < level-1; i++)
+                {
+                    Food.Add(CreateBrick(level - 2 - i, i));
+                    Food.Add(CreateBrick(i, cols - level + 2 + i));
+                    Food.Add(CreateBrick(rows - level + 2 + i, i));
+                    Food.Add(CreateBrick(rows - i, cols - level + 2 + i));
+                }
+
                 score.Text = "BODOVI: " + scoreInt + Environment.NewLine + "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
             }
 
@@ -249,6 +280,7 @@ namespace Zmija
                     }
                 }
             }
+
 
             canvas.Invalidate();
         }
@@ -336,7 +368,8 @@ namespace Zmija
             // malo glupo rjesenje, radi trenutno (new lives < lives -> decrease)
             // mozda vratiti i speed
             int newLives;
-            (scoreInt, newLives) = food.ActivateEffect(Snake, scoreInt, lives);
+            (scoreInt, newLives, timer.Interval) = food.ActivateEffect(Snake, scoreInt, lives, timer.Interval);
+
             if (newLives < lives)
             {
                 DecreaseLives();
@@ -355,6 +388,7 @@ namespace Zmija
             Snake.Add(rear);*/
 
             int ind = Food.IndexOf(food);
+            /* Uklonjen je if jer zapne u beskonacnu petlju s njime
             if (ind > 0)
             {
                 Food[ind] = CreateFood(types);
@@ -362,7 +396,9 @@ namespace Zmija
             else
             {
                 Food[ind] = new BasicFood { X = rand.Next(2, cols), Y = rand.Next(2, rows) };
-            }
+            }*/
+            if (Food[ind].Color != Brushes.DarkGray) 
+                Food[ind] = CreateFood(types);
         }
 
         private void RestartGame()
