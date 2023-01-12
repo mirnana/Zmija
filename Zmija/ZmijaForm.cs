@@ -241,12 +241,12 @@ namespace Zmija
                         Snake[i].Y = Snake[i - 1].Y;
                     }
                 }
-                for (int i = 0; i < Food.Count; i++)
+            }
+            for (int i = 0; i < Food.Count; i++)
+            {
+                if (Food[i] is TimedFood && !Food[i].CheckTimer())
                 {
-                    if (Food[i] is TimedFood && !Food[i].CheckTimer())
-                    {
-                        Food[i] = CreateFood(types);
-                    }
+                    Food[i] = CreateFood(types);
                 }
             }
 
