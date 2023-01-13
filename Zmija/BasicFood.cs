@@ -15,7 +15,7 @@ namespace Zmija
 
         public BasicFood() : base()
         {
-            Points = 10;
+            Points = 50;
             Color = Brushes.Red;
         }
         // nova metoda - activate effect - napraviti da radi u zmijaform
@@ -23,7 +23,7 @@ namespace Zmija
         // POGLEDATI UPUTE!!
         // druge boje za drugu hranu
 
-        public virtual (int, int) ActivateEffect(List<Unit> Snake, int score, int lives)
+        public virtual (int, int, int) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             Unit rear = new Unit
             {
@@ -31,7 +31,7 @@ namespace Zmija
                 Y = Snake[Snake.Count - 1].Y,
             };
             Snake.Add(rear);
-            return (score + Points, lives);
+            return (score + Points, lives, timer);
         }
 
         public virtual bool CheckTimer() { return true; }
