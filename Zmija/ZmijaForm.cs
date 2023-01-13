@@ -63,25 +63,40 @@ namespace Zmija
                     string s = e.KeyCode.ToString();
                     factor = int.Parse(s.Substring(s.Length - 1));
                 }
+
                 if (e.KeyCode.ToString() == settings.GoLeftKey && settings.Direction != "right")
                 {
                     left = true;
+                    if (e.Shift)
+                    {
+                        factor = Snake[0].X - 1;
+                    }
                 }
                 if (e.KeyCode.ToString() == settings.GoRightKey && settings.Direction != "left")
                 {
                     right = true;
+                    if (e.Shift)
+                    {
+                        factor = cols - Snake[0].X - 1;
+                    }
                 }
                 if (e.KeyCode.ToString() == settings.GoUpKey && settings.Direction != "down")
                 {
                     up = true;
+                    if (e.Shift)
+                    {
+                        factor = Snake[0].Y - 1;
+                    }
                 }
                 if (e.KeyCode.ToString() == settings.GoDownKey && settings.Direction != "up")
                 {
                     down = true;
+                    if (e.Shift)
+                    {
+                        factor = rows - Snake[0].Y - 1;
+                    }
                 }
             }
-            
-            
         }
         private void ZmijaForm_KeyUp(object sender, KeyEventArgs e)
         {

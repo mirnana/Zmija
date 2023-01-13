@@ -35,10 +35,5 @@ namespace Zmija
             InstructionsKey = Keys.U.ToString();
             CloseKey = Keys.Escape.ToString();
         }
-
-        public void ChangeKey(string key)
-        {
-            // kasnije
-        }
     }
 }
