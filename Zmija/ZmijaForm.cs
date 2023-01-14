@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -19,6 +20,8 @@ namespace Zmija
         private List<Type> types = new List<Type>();
         private int level;
         private int levelLimit;
+        string[,] matrix;
+        int invTimer;
 
         Random rand = new Random();
         public static Settings settings;
@@ -112,16 +115,45 @@ namespace Zmija
             }
         }
         //note to self, napraviti provjeru postoji li na ovom polju vec neka hrana
+        private (int, int) FindEmptyField()
+        {
+            var filteredList = Enumerable.Range(0, matrix.GetLength(0))
+                             .SelectMany(i => Enumerable.Range(0, matrix.GetLength(1))
+                             .Select(j => new { i, j }))
+                             .Where(ij => matrix[ij.i, ij.j] == "");
+            var newField = filteredList.ElementAt(rand.Next(filteredList.Count()));
+            return (newField.i, newField.j);
+        }
+
         private BasicFood CreateFood(List<Type> availableTypes)
         {
             Type type = availableTypes[rand.Next(availableTypes.Count)];
             object food = Activator.CreateInstance(type);
+            var field = FindEmptyField();
 
             PropertyInfo xProperty = type.GetProperty("X");
-            xProperty.SetValue(food, rand.Next(2, cols));
+            //xProperty.SetValue(food, rand.Next(2, cols));
+            xProperty.SetValue(food, field.Item1);
 
             PropertyInfo yProperty = type.GetProperty("Y");
-            yProperty.SetValue(food, rand.Next(2, rows));
+            //yProperty.SetValue(food, rand.Next(2, rows));
+            yProperty.SetValue(food, field.Item2);
+
+            return (BasicFood)food;
+        }
+
+        private BasicFood CreateFood(Type type)
+        {
+            object food = Activator.CreateInstance(type);
+            var field = FindEmptyField();
+
+            PropertyInfo xProperty = type.GetProperty("X");
+            //xProperty.SetValue(food, rand.Next(2, cols));
+            xProperty.SetValue(food, field.Item1);
+
+            PropertyInfo yProperty = type.GetProperty("Y");
+            //yProperty.SetValue(food, rand.Next(2, rows));
+            yProperty.SetValue(food, field.Item2);
 
             return (BasicFood)food;
         }
@@ -136,6 +168,17 @@ namespace Zmija
 
             PropertyInfo yProperty = type.GetProperty("Y");
             yProperty.SetValue(brick, yPosition);
+
+            if (matrix[xPosition, yPosition] != "" && matrix[xPosition, yPosition][0] == 'f')
+            {
+                var field = FindEmptyField();
+                int ind = int.Parse(matrix[xPosition, yPosition][1].ToString());
+                Food[ind].X = field.Item1;
+                Food[ind].Y = field.Item2;
+                matrix[Food[ind].X, Food[ind].Y] = "f" + ind.ToString();
+            }
+
+            matrix[xPosition, yPosition] = "b";
 
             return (BasicFood)brick;
         }
@@ -153,47 +196,51 @@ namespace Zmija
                 {
                     case 1:
                         level = 2;
-                        // levelLimit = 250;     // ako zelimo druge granice
-                        if(!types.Contains(typeof(BadFood)))
-                            types.Add(typeof(BadFood));
+                        types.Add(typeof(BadFood));
+                        Food.Add(CreateFood(typeof(BadFood)));
                         break;
                     case 2:
                         level = 3;
-                        if (!types.Contains(typeof(FastFood)))
-                            types.Add(typeof(FastFood));
+                        types.Add(typeof(FastFood));
+                        Food.Add(CreateFood(typeof(FastFood)));
                         break;
                     case 3:
                         level = 4;
-                        if (!types.Contains(typeof(SlowFood)))
-                            types.Add(typeof(SlowFood));
+                        types.Add(typeof(SlowFood));
+                        Food.Add(CreateFood(typeof(SlowFood)));
                         break;
                     case 4:
                         level = 5;
-                        if (!types.Contains(typeof(ShortFood)))
-                            types.Add(typeof(ShortFood));
+                        types.Add(typeof(ShortFood));
+                        Food.Add(CreateFood(typeof(ShortFood)));
                         break;
                     case 5:
                         level = 6;
-                        if (!types.Contains(typeof(SuperFood)))
-                            types.Add(typeof(SuperFood));
+                        types.Add(typeof(SuperFood));
+                        Food.Add(CreateFood(typeof(SuperFood)));
                         break;
                     case 6:
                         level = 7;
-                        if (!types.Contains(typeof(DeathFood)))
-                            types.Add(typeof(DeathFood));
+                        types.Add(typeof(DeathFood));
+                        Food.Add(CreateFood(typeof(DeathFood)));
                         break;
                     case 7:
                         level = 8;
-                        Food.Add(CreateFood(types));
+                        types.Add(typeof(InvincibleFood));
+                        Food.Add(CreateFood(typeof(InvincibleFood)));
                         break;
                     case 8:
                         level = 9;
+                        Food.Add(CreateFood(types));
                         break;
                     case 9:
                         level = 10;
+                        Food.Add(CreateFood(types));
                         break;
                 }
-                Food.Add(CreateFood(types));
+                //Food.Add(CreateFood(types));
+                int ind = Food.Count-1;
+                matrix[Food[ind].X, Food[ind].Y] = "f" + ind.ToString();
                 for (int i = 0; i < level-1; i++)
                 {
                     Food.Add(CreateBrick(level - 2 - i, i));
@@ -202,7 +249,8 @@ namespace Zmija
                     Food.Add(CreateBrick(rows - i, cols - level + 2 + i));
                 }
 
-                score.Text = "BODOVI: " + scoreInt + Environment.NewLine + "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
+                score.Text = "BODOVI: " + scoreInt;
+                livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
             }
 
             if (left)
@@ -258,13 +306,27 @@ namespace Zmija
                         }
 
                         // prepraviti da ne pretrazuje cijelu listu?
-                        for (int j = 0; j < Food.Count; j++)
+                        /*for (int j = 0; j < Food.Count; j++)
                         {
                             if (Snake[i].X == Food[j].X && Snake[i].Y == Food[j].Y)
                             {
                                 EatFood(Food[j]);
                             }
+                        }*/
+                        if (Snake[i].X >= 0 && Snake[i].Y >= 0 && Snake[i].X <= cols && Snake[i].Y <= rows)
+                        {
+                            string s = matrix[Snake[i].X, Snake[i].Y];
+                            if (s != "" && s[0] == 'f')
+                            {
+                                EatFood(Food[int.Parse(s[1].ToString())]);
+                            }
+                            else if (s == "b" && invTimer == 0)
+                            {
+                                DecreaseLives();
+                            }
                         }
+                        // trenutacno samo provjeravam je li zmija udarila zid glavom
+                        // ne racuna se ako neki dio zapne na zidu zbog InvincibleFood
                     }
                     else
                     {
@@ -277,7 +339,22 @@ namespace Zmija
             {
                 if (Food[i] is TimedFood && !Food[i].CheckTimer())
                 {
+                    matrix[Food[i].X, Food[i].Y] = "";
                     Food[i] = CreateFood(types);
+                    matrix[Food[i].X, Food[i].Y] = "f" + i.ToString();
+                }
+            }
+
+            if(invTimer > 0)
+            {
+                invTimer--;
+                if(invTimer == 0)
+                {
+                    invincibility.Text = "";
+                }
+                else if(invTimer % 10 == 9)
+                {
+                    invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 10);
                 }
             }
 
@@ -299,11 +376,25 @@ namespace Zmija
             {
                 if (i == 0)
                 {
-                    color = Brushes.Green;
+                    if(invTimer > 0)
+                    {
+                        color = Brushes.DarkViolet;
+                    }
+                    else
+                    {
+                        color = Brushes.Green;
+                    }
                 }
                 else
                 {
-                    color = Brushes.LightGreen;
+                    if (invTimer > 0)
+                    {
+                        color = Brushes.Violet;
+                    }
+                    else
+                    {
+                        color = Brushes.LightGreen;
+                    }
                 }
 
                 g.FillRectangle
@@ -338,7 +429,12 @@ namespace Zmija
         private void DecreaseLives()
         {
             lives--;
-            score.Text = "BODOVI: " + scoreInt + Environment.NewLine + "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
+            if(invTimer > 0)
+            {
+                invTimer = 0;
+                invincibility.Text = "";
+            }
+            livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
 
             if (lives <= 0)
             {
@@ -368,7 +464,8 @@ namespace Zmija
             // malo glupo rjesenje, radi trenutno (new lives < lives -> decrease)
             // mozda vratiti i speed
             int newLives;
-            (scoreInt, newLives, timer.Interval) = food.ActivateEffect(Snake, scoreInt, lives, timer.Interval);
+            bool inv;
+            (scoreInt, newLives, timer.Interval, inv) = food.ActivateEffect(Snake, scoreInt, lives, timer.Interval);
 
             if (newLives < lives)
             {
@@ -376,29 +473,33 @@ namespace Zmija
             }
             else
             {
-                score.Text = "BODOVI: " + scoreInt + Environment.NewLine + "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
+                score.Text = "BODOVI: " + scoreInt;
+                livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
             }
 
-            // prebaceno u food efekt
-            /*Unit rear = new Unit
+            if (inv)
             {
-                X = Snake[Snake.Count - 1].X,
-                Y = Snake[Snake.Count - 1].Y,
-            };
-            Snake.Add(rear);*/
+                invTimer = 300;
+                invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 10);
+            }
 
             int ind = Food.IndexOf(food);
-            /* Uklonjen je if jer zapne u beskonacnu petlju s njime
-            if (ind > 0)
+            if (Food[ind].Color != Brushes.DarkGray)
             {
-                Food[ind] = CreateFood(types);
+                // ostaviti da se moze ponovno stvoriti na istom mjestu?
+                matrix[Food[ind].X, Food[ind].Y] = "";
+                if (ind > 0)
+                {
+                    Food[ind] = CreateFood(types);
+                }
+                else
+                {
+                    var field = FindEmptyField();
+                    //Food[ind] = new BasicFood { X = rand.Next(2, cols), Y = rand.Next(2, rows) };
+                    Food[ind] = new BasicFood { X = field.Item1, Y = field.Item2 };
+                }
+                matrix[Food[ind].X, Food[ind].Y] = "f" + ind.ToString();
             }
-            else
-            {
-                Food[ind] = new BasicFood { X = rand.Next(2, cols), Y = rand.Next(2, rows) };
-            }*/
-            if (Food[ind].Color != Brushes.DarkGray) 
-                Food[ind] = CreateFood(types);
         }
 
         private void RestartGame()
@@ -413,8 +514,11 @@ namespace Zmija
             scoreInt = 0;
             level = 1;
             levelLimit = 100;
+            invTimer = 0;
             // dodati brzinu i "do iduceg levela"?
-            score.Text = "BODOVI: " + scoreInt + Environment.NewLine + "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
+            score.Text = "BODOVI: " + scoreInt;
+            livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
+            invincibility.Text = "";
 
             Unit head = new Unit { X = 10, Y = 10 };
             Snake.Add(head);
@@ -424,10 +528,28 @@ namespace Zmija
                 Snake.Add(new Unit());
             }
 
+            matrix = new string[rows + 1, cols + 1];
+            // microsoft doslovno ne zna bolji nacin
+            for (int i = 0; i < rows + 1; i++)
+            {
+                for (int j = 0; j < cols + 1; j++)
+                {
+                    matrix[i, j] = "";
+                }
+            }
+
             Food.Clear();
+            // moze se staviti da bira empty field, ali u ovom trenu je sve prazno osim zmije
+            // trenutacno se moze staviti preko zmije
             Food.Add(new BasicFood { X = rand.Next(2, cols), Y = rand.Next(2, rows) });
+            // f = food, 0 = index (da zmija odmah zna sto je pojela)
+            // b = brick
+            matrix[Food[0].X, Food[0].Y] = "f0";
             types.Clear();
             types.Add(typeof(BasicFood));
+
+            timer.Interval = 100;
+            settings.Direction = "left";
 
             timer.Start();
         }
