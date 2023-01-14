@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace Zmija
 {
     public partial class KeyChange : UserControl
     {
+        private string keyAux;
         public KeyChange()
         {
             InitializeComponent();
@@ -39,6 +42,7 @@ namespace Zmija
 
         private void changeKey_button_Click(object sender, EventArgs e)
         {
+            keyAux = key_label.Text;
             if (izmijeni_Click != null)
             {
                 izmijeni_Click(this, key);
@@ -47,18 +51,20 @@ namespace Zmija
 
         private void KeyChange_Enter(object sender, EventArgs e)
         {
+            keyAux = key_label.Text;
             this.BackColor = SystemColors.ActiveCaption;
         }
 
         private void KeyChange_Leave(object sender, EventArgs e)
         {
+            key_label.Text = keyAux;
             this.BackColor = SystemColors.Control;
         }
 
-        private void changeKey_button_KeyDown(object sender, KeyEventArgs e)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            key = e.KeyCode.ToString();
-            key_label.Text = key;
+            key_label.Text = keyData.ToString();
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

@@ -64,7 +64,6 @@
             this.changeKey_button.Text = "IZMIJENI";
             this.changeKey_button.UseVisualStyleBackColor = true;
             this.changeKey_button.Click += new System.EventHandler(this.changeKey_button_Click);
-            this.changeKey_button.KeyDown += new System.Windows.Forms.KeyEventHandler(this.changeKey_button_KeyDown);
             // 
             // functionality_label
             // 
