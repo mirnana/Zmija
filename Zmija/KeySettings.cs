@@ -15,16 +15,7 @@ namespace Zmija
     {
         public KeySettings()
         {
-            this.KeyPreview = true;
             InitializeComponent();
-        }
-
-        private void KeySettings_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode.ToString() == ZmijaForm.settings.CloseKey)
-            {
-                this.Close();
-            }
         }
 
         private void izmijeni_Click_left(object sender, string e)

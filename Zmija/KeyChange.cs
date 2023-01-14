@@ -63,7 +63,17 @@ namespace Zmija
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            key_label.Text = keyData.ToString();
+            List<Keys> unwanted = new List<Keys>
+            {
+                Keys.Shift,
+                Keys.ShiftKey,
+                Keys.Control,
+                Keys.ControlKey,
+                Keys.Alt
+            };
+            if (!unwanted.Contains(keyData)) {
+                key_label.Text = keyData.ToString();
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
     }

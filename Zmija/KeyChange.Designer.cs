@@ -57,9 +57,9 @@
             // changeKey_button
             // 
             this.changeKey_button.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.changeKey_button.Location = new System.Drawing.Point(0, 57);
+            this.changeKey_button.Location = new System.Drawing.Point(0, 55);
             this.changeKey_button.Name = "changeKey_button";
-            this.changeKey_button.Size = new System.Drawing.Size(250, 23);
+            this.changeKey_button.Size = new System.Drawing.Size(248, 23);
             this.changeKey_button.TabIndex = 5;
             this.changeKey_button.Text = "IZMIJENI";
             this.changeKey_button.UseVisualStyleBackColor = true;
@@ -93,6 +93,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.command_label);
             this.Controls.Add(this.key_label);
             this.Controls.Add(this.functionality_label);
@@ -100,7 +101,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "KeyChange";
-            this.Size = new System.Drawing.Size(250, 80);
+            this.Size = new System.Drawing.Size(248, 78);
             this.Enter += new System.EventHandler(this.KeyChange_Enter);
             this.Leave += new System.EventHandler(this.KeyChange_Leave);
             this.ResumeLayout(false);
