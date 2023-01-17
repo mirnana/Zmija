@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Zmija
 {
@@ -22,6 +23,8 @@ namespace Zmija
         private int levelLimit;
         string[,] matrix;
         int invTimer;
+        int sleepy_timer;
+
 
         Random rand = new Random();
         public static Settings settings;
@@ -127,7 +130,19 @@ namespace Zmija
 
         private BasicFood CreateFood(List<Type> availableTypes)
         {
-            Type type = availableTypes[rand.Next(availableTypes.Count)];
+            List<Type> unusableTypes = new List<Type>();
+            if (sleepy_timer > 400)
+                unusableTypes.Add(typeof(SlowFood));
+            if (sleepy_timer < 100)
+                unusableTypes.Add(typeof(FastFood));
+            if (scoreInt < 10)
+                unusableTypes.Add(typeof(BadFood));
+            if (invTimer > 0)
+                unusableTypes.Add(typeof(InvincibleFood));
+            if (Snake.Count < 5)
+                unusableTypes.Add(typeof(ShortFood));
+
+            Type type = availableTypes.Except(unusableTypes).ToList()[rand.Next(availableTypes.Except(unusableTypes).ToList().Count)];
             object food = Activator.CreateInstance(type);
             var field = FindEmptyField();
 
@@ -169,10 +184,11 @@ namespace Zmija
             PropertyInfo yProperty = type.GetProperty("Y");
             yProperty.SetValue(brick, yPosition);
 
+            // ne radi, ne prebaci hranu, prebaci brick.... fix [1] -> .Substring(1) ako sam negdje zaboravila
             if (matrix[xPosition, yPosition] != "" && matrix[xPosition, yPosition][0] == 'f')
             {
                 var field = FindEmptyField();
-                int ind = int.Parse(matrix[xPosition, yPosition][1].ToString());
+                int ind = int.Parse(matrix[xPosition, yPosition].Substring(1).ToString());
                 Food[ind].X = field.Item1;
                 Food[ind].Y = field.Item2;
                 matrix[Food[ind].X, Food[ind].Y] = "f" + ind.ToString();
@@ -189,6 +205,88 @@ namespace Zmija
         //a na levelu je vecem od 1 pa sam dodala par uvjeta da se odvrsi samo jednom po levelu
         private void timer_Tick(object sender, EventArgs e)
         {
+            if (left)
+            {
+                settings.Direction = "left";
+            }
+            if (right)
+            {
+                settings.Direction = "right";
+            }
+            if (up)
+            {
+                settings.Direction = "up";
+            }
+            if (down)
+            {
+                settings.Direction = "down";
+            }
+
+            for (int k = 0; k < factor; k++)
+            {
+                for (int i = Snake.Count - 1; i >= 0; i--)
+                {
+                    if (i == 0)
+                    {
+                        switch (settings.Direction)
+                        {
+                            case "left":
+                                Snake[i].X--;
+                                break;
+                            case "right":
+                                Snake[i].X++;
+                                break;
+                            case "up":
+                                Snake[i].Y--;
+                                break;
+                            case "down":
+                                Snake[i].Y++;
+                                break;
+                        }
+
+                        if (Snake[i].X < 0 || Snake[i].Y < 0 || Snake[i].X > cols || Snake[i].Y > rows)
+                        {
+                            DecreaseLives();
+                        }
+
+                        for (int j = 1; j < Snake.Count; j++)
+                        {
+                            if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
+                            {
+                                DecreaseLives();
+                            }
+                        }
+
+                        // prepraviti da ne pretrazuje cijelu listu?
+                        /*for (int j = 0; j < Food.Count; j++)
+                        {
+                            if (Snake[i].X == Food[j].X && Snake[i].Y == Food[j].Y)
+                            {
+                                EatFood(Food[j]);
+                            }
+                        }*/
+                        if (Snake[i].X >= 0 && Snake[i].Y >= 0 && Snake[i].X <= cols && Snake[i].Y <= rows)
+                        {
+                            string s = matrix[Snake[i].X, Snake[i].Y];
+                            if (s != "" && s[0] == 'f')
+                            {
+                                EatFood(Food[int.Parse(s.Substring(1).ToString())]);
+                            }
+                            else if (s == "b" && invTimer == 0)
+                            {
+                                DecreaseLives();
+                            }
+                        }
+                        // trenutacno samo provjeravam je li zmija udarila zid glavom
+                        // ne racuna se ako neki dio zapne na zidu zbog InvincibleFood
+                    }
+                    else
+                    {
+                        Snake[i].X = Snake[i - 1].X;
+                        Snake[i].Y = Snake[i - 1].Y;
+                    }
+                }
+            }
             if (level < 10 && scoreInt >= level * levelLimit)
             {
                 // provjeriti, dodati tidove, promjene polja
@@ -253,88 +351,6 @@ namespace Zmija
                 livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
             }
 
-            if (left)
-            {
-                settings.Direction = "left";
-            }
-            if (right)
-            {
-                settings.Direction = "right";
-            }
-            if (up)
-            {
-                settings.Direction = "up";
-            }
-            if (down)
-            {
-                settings.Direction = "down";
-            }
-
-            for (int k = 0; k < factor; k++) 
-            {
-                for (int i = Snake.Count - 1; i >= 0; i--)
-                {
-                    if (i == 0)
-                    {
-                        switch (settings.Direction)
-                        {
-                            case "left":
-                                Snake[i].X--;
-                                break;
-                            case "right":
-                                Snake[i].X++;
-                                break;
-                            case "up":
-                                Snake[i].Y--;
-                                break;
-                            case "down":
-                                Snake[i].Y++;
-                                break;
-                        }
-
-                        if (Snake[i].X < 0 || Snake[i].Y < 0 || Snake[i].X > cols || Snake[i].Y > rows)
-                        {
-                            DecreaseLives();
-                        }
-
-                        for (int j = 1; j < Snake.Count; j++)
-                        {
-                            if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
-                            {
-                                DecreaseLives();
-                            }
-                        }
-
-                        // prepraviti da ne pretrazuje cijelu listu?
-                        /*for (int j = 0; j < Food.Count; j++)
-                        {
-                            if (Snake[i].X == Food[j].X && Snake[i].Y == Food[j].Y)
-                            {
-                                EatFood(Food[j]);
-                            }
-                        }*/
-                        if (Snake[i].X >= 0 && Snake[i].Y >= 0 && Snake[i].X <= cols && Snake[i].Y <= rows)
-                        {
-                            string s = matrix[Snake[i].X, Snake[i].Y];
-                            if (s != "" && s[0] == 'f')
-                            {
-                                EatFood(Food[int.Parse(s[1].ToString())]);
-                            }
-                            else if (s == "b" && invTimer == 0)
-                            {
-                                DecreaseLives();
-                            }
-                        }
-                        // trenutacno samo provjeravam je li zmija udarila zid glavom
-                        // ne racuna se ako neki dio zapne na zidu zbog InvincibleFood
-                    }
-                    else
-                    {
-                        Snake[i].X = Snake[i - 1].X;
-                        Snake[i].Y = Snake[i - 1].Y;
-                    }
-                }
-            }
             for (int i = 0; i < Food.Count; i++)
             {
                 if (Food[i] is TimedFood && !Food[i].CheckTimer())
@@ -360,6 +376,8 @@ namespace Zmija
 
 
             canvas.Invalidate();
+            Thread.Sleep(sleepy_timer);
+
         }
 
         private void start_Click(object sender, EventArgs e)
@@ -371,6 +389,21 @@ namespace Zmija
         {
             Graphics g = e.Graphics;
             Brush color;
+
+            for (int i = 0; i < Food.Count; i++)
+            {
+                g.FillRectangle
+                (
+                    Food[i].Color,
+                    new Rectangle
+                    (
+                        Food[i].X * settings.UnitWidth,
+                        Food[i].Y * settings.UnitHeight,
+                        settings.UnitWidth,
+                        settings.UnitHeight
+                    )
+                );
+            }
 
             for (int i = 0; i < Snake.Count; i++)
             {
@@ -410,20 +443,7 @@ namespace Zmija
                     );
             }
 
-            for (int i = 0; i < Food.Count; i++)
-            {
-                g.FillRectangle
-                (
-                    Food[i].Color,
-                    new Rectangle
-                    (
-                        Food[i].X * settings.UnitWidth,
-                        Food[i].Y * settings.UnitHeight,
-                        settings.UnitWidth,
-                        settings.UnitHeight
-                    )
-                );
-            }
+            
         }
 
         private void DecreaseLives()
@@ -465,8 +485,8 @@ namespace Zmija
             // mozda vratiti i speed
             int newLives;
             bool inv;
-            (scoreInt, newLives, timer.Interval, inv) = food.ActivateEffect(Snake, scoreInt, lives, timer.Interval);
-
+            (scoreInt, newLives, sleepy_timer, inv) = food.ActivateEffect(Snake, scoreInt, lives, sleepy_timer);
+            
             if (newLives < lives)
             {
                 DecreaseLives();
@@ -548,7 +568,8 @@ namespace Zmija
             types.Clear();
             types.Add(typeof(BasicFood));
 
-            timer.Interval = 100;
+            timer.Interval = 10;
+            sleepy_timer = 100;
             settings.Direction = "left";
 
             timer.Start();

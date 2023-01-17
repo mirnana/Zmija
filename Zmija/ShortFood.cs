@@ -17,12 +17,11 @@ namespace Zmija
         public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             //change speed (return?)
-            if(Snake.Count > 3)
-            {
-                Snake.RemoveAt(Snake.Count - 1);
-                Snake.RemoveAt(Snake.Count - 1);
-            }
-                
+             Snake.RemoveAt(Snake.Count - 1);
+             Snake.RemoveAt(Snake.Count - 1);
+             Snake.RemoveAt(Snake.Count - 1);
+             Snake.RemoveAt(Snake.Count - 1);
+
 
             return (score + Points, lives, timer, false);
         }
