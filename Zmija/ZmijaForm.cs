@@ -251,7 +251,7 @@ namespace Zmija
 
                         for (int j = 1; j < Snake.Count; j++)
                         {
-                            if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y)
+                            if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y  && invTimer == 0)
                             {
                                 DecreaseLives();
                             }
@@ -449,6 +449,7 @@ namespace Zmija
         private void DecreaseLives()
         {
             lives--;
+            sleepy_timer = 100;
             if(invTimer > 0)
             {
                 invTimer = 0;
