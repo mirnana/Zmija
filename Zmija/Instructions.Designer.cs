@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "Instructions";
             this.Text = "Upute";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Instructions_KeyDown);
             this.ResumeLayout(false);
 
         }

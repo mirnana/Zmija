@@ -222,7 +222,7 @@ namespace Zmija
                 settings.Direction = "down";
             }
 
-            for (int k = 0; k < factor; k++)
+            for (int k = 0; k < factor; k++) 
             {
                 for (int i = Snake.Count - 1; i >= 0; i--)
                 {
