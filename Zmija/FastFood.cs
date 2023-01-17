@@ -18,7 +18,7 @@ namespace Zmija
         {
             //change speed (return?)
             if (timer >= 200)
-                timer -= 150;
+                timer -= 50;
             return (score + Points, lives, timer, false);
         }
     }

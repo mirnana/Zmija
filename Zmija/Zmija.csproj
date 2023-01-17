@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BadFood.cs" />
-    <Compile Include="BasicFood.cs" />
+	  <Compile Include="BasicFood.cs" />
     <Compile Include="DeathFood.cs" />
     <Compile Include="FastFood.cs" />
     <Compile Include="Instructions.cs">
