@@ -18,12 +18,8 @@ namespace Zmija
             Points = 50;
             Color = Brushes.Red;
         }
-        // nova metoda - activate effect - napraviti da radi u zmijaform
-        // tl;dr dodaj bodove + efekt
-        // POGLEDATI UPUTE!!
-        // druge boje za drugu hranu
 
-        public virtual (int, int, int) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
+        public virtual (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             Unit rear = new Unit
             {
@@ -31,7 +27,7 @@ namespace Zmija
                 Y = Snake[Snake.Count - 1].Y,
             };
             Snake.Add(rear);
-            return (score + Points, lives, timer);
+            return (score + Points, lives, timer, false);
         }
 
         public virtual bool CheckTimer() { return true; }
