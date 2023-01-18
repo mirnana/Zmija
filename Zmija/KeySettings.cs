@@ -11,6 +11,9 @@ using Zmija.Properties;
 
 namespace Zmija
 {
+    /// <summary>
+    /// forma u kojoj korisnik može vidjeti koja tipka je pridružena kojoj funkcionalnosti i izmijeniti navedene tipke
+    /// </summary>
     public partial class KeySettings : Form
     {
         public KeySettings()
@@ -20,7 +23,10 @@ namespace Zmija
 
         private void izmijeni_Click_left(object sender, string e)
         {
+            // korisnik je potvrdio koju tipku želi pa mijenjamo tu vrijednost u glavnoj formi
             ZmijaForm.settings.GoLeftKey = e;
+
+            // ako korisnik izmijeni kako se kreće ulijevo, ili ulijevo za određeni broj, ili ulijevo do kraja ploče - onda sve te tri funkcionalnosti moraju imati istu novu tipku. analogno za sve smjerove
             foreach (Control c in panelLeft.Controls)
             {
                 if (c is KeyChange)
@@ -32,6 +38,7 @@ namespace Zmija
 
         private void Load_left(object sender, EventArgs e)
         {
+            // pri učitavanju svake kontrole moramo dohvatiti potrebnu informaciju iz glavne forme
             ((KeyChange)sender).key = ZmijaForm.settings.GoLeftKey;
         }
 
