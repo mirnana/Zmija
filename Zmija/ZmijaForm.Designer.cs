@@ -42,17 +42,18 @@
             this.canvas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.canvas.Location = new System.Drawing.Point(0, 0);
             this.canvas.Name = "canvas";
-            this.canvas.Size = new System.Drawing.Size(480, 480);
+            this.canvas.Size = new System.Drawing.Size(640, 640);
             this.canvas.TabIndex = 0;
             this.canvas.TabStop = false;
             this.canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.canvas_Paint);
             // 
             // start
             // 
-            this.start.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.start.Location = new System.Drawing.Point(0, 524);
+            this.start.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.start.Location = new System.Drawing.Point(200, 641);
             this.start.Name = "start";
-            this.start.Size = new System.Drawing.Size(482, 50);
+            this.start.Size = new System.Drawing.Size(240, 50);
             this.start.TabIndex = 1;
             this.start.Text = "START";
             this.start.UseVisualStyleBackColor = true;
@@ -64,30 +65,35 @@
             // 
             // help
             // 
+            this.help.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.help.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.help.Location = new System.Drawing.Point(0, 481);
+            this.help.Location = new System.Drawing.Point(0, 641);
             this.help.Name = "help";
-            this.help.Size = new System.Drawing.Size(240, 50);
+            this.help.Size = new System.Drawing.Size(200, 50);
             this.help.TabIndex = 4;
             this.help.Text = "POSTAVKE: ctrl  + P\r\nUPUTE: ctrl + U";
             // 
             // score
             // 
-            this.score.Location = new System.Drawing.Point(241, 481);
+            this.score.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.score.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.score.Location = new System.Drawing.Point(440, 641);
             this.score.Name = "score";
-            this.score.Size = new System.Drawing.Size(240, 50);
+            this.score.Size = new System.Drawing.Size(200, 50);
             this.score.TabIndex = 5;
             // 
             // ZmijaForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(482, 574);
+            this.ClientSize = new System.Drawing.Size(641, 690);
             this.Controls.Add(this.score);
             this.Controls.Add(this.help);
             this.Controls.Add(this.start);
             this.Controls.Add(this.canvas);
+            this.MaximizeBox = false;
             this.Name = "ZmijaForm";
             this.Text = "Zmija";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ZmijaForm_KeyDown);
