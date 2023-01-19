@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Zmija
 {
+    /// <summary>
+    /// predstavlja jedno polje na ploči
+    /// </summary>
     internal class Unit
     {
         public int X { get; set; }
