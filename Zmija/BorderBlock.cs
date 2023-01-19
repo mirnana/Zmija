@@ -7,18 +7,16 @@ using System.Threading.Tasks;
 
 namespace Zmija
 {
-    internal class SlowFood : BasicFood
+    internal class BorderBlock : BasicFood
     {
-        public SlowFood() : base()
+        public BorderBlock() : base()
         {
-            Color = Brushes.Yellow;
+            Color = Brushes.DarkGray;
         }
 
         public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
-            //change speed (return?)
-            timer += 20; 
-            return (score + Points, lives, timer, false);
+            return (score, lives - 1, timer, false);
         }
     }
 }

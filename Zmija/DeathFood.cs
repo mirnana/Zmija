@@ -15,9 +15,9 @@ namespace Zmija
             Color = Brushes.Black;
         }
 
-        public override (int, int, int) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
+        public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
-            return (score, lives - 1, timer);
+            return (score, lives - 1, timer, false);
         }
     }
 }
