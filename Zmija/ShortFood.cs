@@ -11,17 +11,16 @@ namespace Zmija
     {
         public ShortFood() : base()
         {
-            Color = Brushes.Orange;
+            Color = Brushes.DarkOrange;
         }
 
         public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
-            //change speed (return?)
-             Snake.RemoveAt(Snake.Count - 1);
-             Snake.RemoveAt(Snake.Count - 1);
-             Snake.RemoveAt(Snake.Count - 1);
-             Snake.RemoveAt(Snake.Count - 1);
-
+            if(Snake.Count >= 5)
+            {
+                Snake.RemoveAt(Snake.Count - 1);
+                Snake.RemoveAt(Snake.Count - 1);
+            }
 
             return (score + Points, lives, timer, false);
         }

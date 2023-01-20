@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Threading;
+using System.Drawing.Drawing2D;
 
 namespace Zmija
 {
@@ -21,9 +22,15 @@ namespace Zmija
         private List<Type> types = new List<Type>();
         private int level;
         private int levelLimit;
-        string[,] matrix;
-        int invTimer;
-        int sleepy_timer;
+        private string[,] matrix;
+        private int invTimer;
+        private int sleepy_timer;
+        private bool player;
+        private List<Unit> EnemySnake = new List<Unit>();
+        private string enemySnakeDirection;
+        private int currentSleep;
+        private int enemySleep;
+
 
 
         Random rand = new Random();
@@ -131,9 +138,9 @@ namespace Zmija
         private BasicFood CreateFood(List<Type> availableTypes)
         {
             List<Type> unusableTypes = new List<Type>();
-            if (sleepy_timer > 400)
+            if (sleepy_timer > 9)
                 unusableTypes.Add(typeof(SlowFood));
-            if (sleepy_timer < 100)
+            if (sleepy_timer < 2)
                 unusableTypes.Add(typeof(FastFood));
             if (scoreInt < 10)
                 unusableTypes.Add(typeof(BadFood));
@@ -147,11 +154,9 @@ namespace Zmija
             var field = FindEmptyField();
 
             PropertyInfo xProperty = type.GetProperty("X");
-            //xProperty.SetValue(food, rand.Next(2, cols));
             xProperty.SetValue(food, field.Item1);
 
             PropertyInfo yProperty = type.GetProperty("Y");
-            //yProperty.SetValue(food, rand.Next(2, rows));
             yProperty.SetValue(food, field.Item2);
 
             return (BasicFood)food;
@@ -163,11 +168,9 @@ namespace Zmija
             var field = FindEmptyField();
 
             PropertyInfo xProperty = type.GetProperty("X");
-            //xProperty.SetValue(food, rand.Next(2, cols));
             xProperty.SetValue(food, field.Item1);
 
             PropertyInfo yProperty = type.GetProperty("Y");
-            //yProperty.SetValue(food, rand.Next(2, rows));
             yProperty.SetValue(food, field.Item2);
 
             return (BasicFood)food;
@@ -205,88 +208,247 @@ namespace Zmija
         //a na levelu je vecem od 1 pa sam dodala par uvjeta da se odvrsi samo jednom po levelu
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (left)
+            if (player)
             {
-                settings.Direction = "left";
-            }
-            if (right)
-            {
-                settings.Direction = "right";
-            }
-            if (up)
-            {
-                settings.Direction = "up";
-            }
-            if (down)
-            {
-                settings.Direction = "down";
-            }
-
-            for (int k = 0; k < factor; k++)
-            {
-                for (int i = Snake.Count - 1; i >= 0; i--)
+                if (left)
                 {
-                    if (i == 0)
+                    settings.Direction = "left";
+                }
+                if (right)
+                {
+                    settings.Direction = "right";
+                }
+                if (up)
+                {
+                    settings.Direction = "up";
+                }
+                if (down)
+                {
+                    settings.Direction = "down";
+                }
+
+                for (int k = 0; k < factor; k++)
+                {
+                    if(factor != 1 || currentSleep == 1)
                     {
-                        switch (settings.Direction)
+                        for (int i = Snake.Count - 1; i >= 0; i--)
                         {
-                            case "left":
-                                Snake[i].X--;
-                                break;
-                            case "right":
-                                Snake[i].X++;
-                                break;
-                            case "up":
-                                Snake[i].Y--;
-                                break;
-                            case "down":
-                                Snake[i].Y++;
-                                break;
-                        }
+                            if (i == 0)
+                            {
+                                switch (settings.Direction)
+                                {
+                                    case "left":
+                                        Snake[i].X--;
+                                        break;
+                                    case "right":
+                                        Snake[i].X++;
+                                        break;
+                                    case "up":
+                                        Snake[i].Y--;
+                                        break;
+                                    case "down":
+                                        Snake[i].Y++;
+                                        break;
+                                }
 
-                        if (Snake[i].X < 0 || Snake[i].Y < 0 || Snake[i].X > cols || Snake[i].Y > rows)
-                        {
-                            DecreaseLives();
-                        }
+                                if (Snake[i].X < 0 || Snake[i].Y < 0 || Snake[i].X > cols || Snake[i].Y > rows)
+                                {
+                                    DecreaseLives();
+                                }
 
-                        for (int j = 1; j < Snake.Count; j++)
+                                for (int j = 1; j < Snake.Count; j++)
+                                {
+                                    if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y && invTimer == 0)
+                                    {
+                                        DecreaseLives();
+                                    }
+                                }
+
+                                for (int j = 0; j < EnemySnake.Count; j++)
+                                {
+                                    if (Snake[i].X == EnemySnake[j].X && Snake[i].Y == EnemySnake[j].Y && invTimer == 0)
+                                    {
+                                        DecreaseLives();
+                                    }
+                                }
+
+                                if (Snake[i].X >= 0 && Snake[i].Y >= 0 && Snake[i].X <= cols && Snake[i].Y <= rows)
+                                {
+                                    string s = matrix[Snake[i].X, Snake[i].Y];
+                                    if (s != "" && s[0] == 'f')
+                                    {
+                                        EatFood(Food[int.Parse(s.Substring(1).ToString())]);
+                                    }
+                                    else if (s == "b" && invTimer == 0)
+                                    {
+                                        DecreaseLives();
+                                    }
+                                }
+                                // trenutacno samo provjeravam je li zmija udarila zid glavom
+                                // ne racuna se ako neki dio zapne na zidu zbog InvincibleFood
+                            }
+                            else
+                            {
+                                Snake[i].X = Snake[i - 1].X;
+                                Snake[i].Y = Snake[i - 1].Y;
+                            }
+                        }
+                        currentSleep = sleepy_timer;
+                    }
+                }
+                currentSleep--;
+                factor = 1;
+                player = false;
+            }
+            else
+            {
+                if (level == 10)
+                {
+                    (int, int) lastPlace = (0,0);
+                    if (!EnemySnake.Any())
+                    {
+                        EnemySnake.Add(new Unit { X = 17, Y = 2 });
+                        EnemySnake.Add(new Unit { X = 18, Y = 2 });
+                        EnemySnake.Add(new Unit { X = 19, Y = 2 });
+                        EnemySnake.Add(new Unit { X = 20, Y = 2 });
+                        EnemySnake.Add(new Unit { X = 21, Y = 2 });
+                        enemySnakeDirection = "left";
+
+                        for (int j = 0; j < Snake.Count; j++)
                         {
-                            if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y  && invTimer == 0)
+                            if (Snake[j].X == 17 && Snake[j].Y == 2 && invTimer == 0)
                             {
                                 DecreaseLives();
                             }
                         }
-
-                        // prepraviti da ne pretrazuje cijelu listu?
-                        /*for (int j = 0; j < Food.Count; j++)
-                        {
-                            if (Snake[i].X == Food[j].X && Snake[i].Y == Food[j].Y)
-                            {
-                                EatFood(Food[j]);
-                            }
-                        }*/
-                        if (Snake[i].X >= 0 && Snake[i].Y >= 0 && Snake[i].X <= cols && Snake[i].Y <= rows)
-                        {
-                            string s = matrix[Snake[i].X, Snake[i].Y];
-                            if (s != "" && s[0] == 'f')
-                            {
-                                EatFood(Food[int.Parse(s.Substring(1).ToString())]);
-                            }
-                            else if (s == "b" && invTimer == 0)
-                            {
-                                DecreaseLives();
-                            }
-                        }
-                        // trenutacno samo provjeravam je li zmija udarila zid glavom
-                        // ne racuna se ako neki dio zapne na zidu zbog InvincibleFood
                     }
                     else
                     {
-                        Snake[i].X = Snake[i - 1].X;
-                        Snake[i].Y = Snake[i - 1].Y;
+                        if(enemySleep == 1)
+                        {
+                            for (int i = EnemySnake.Count - 1; i >= 0; i--)
+                            {
+                                if (i == 0)
+                                {
+                                    if (EnemySnake[i].X < cols / 2)
+                                    {
+                                        if (EnemySnake[i].Y < rows / 2 && (EnemySnake[i].X + 1) % 3 == 0 && (EnemySnake[i].Y + 1) % 3 == 0)
+                                        {
+                                            if (enemySnakeDirection == "left")
+                                            {
+                                                enemySnakeDirection = "down";
+                                            }
+                                            else
+                                            {
+                                                enemySnakeDirection = "left";
+                                            }
+                                        }
+                                        else if (EnemySnake[i].Y > rows / 2 && (EnemySnake[i].X + 1) % 3 == 0 && (EnemySnake[i].Y + 2) % 3 == 0)
+                                        {
+                                            if (enemySnakeDirection == "right")
+                                            {
+                                                enemySnakeDirection = "down";
+                                            }
+                                            else
+                                            {
+                                                enemySnakeDirection = "right";
+                                            }
+                                        }
+                                    }
+                                    else if (EnemySnake[i].X > cols / 2)
+                                    {
+                                        if (EnemySnake[i].Y < rows / 2 && (EnemySnake[i].X + 2) % 3 == 0 && (EnemySnake[i].Y + 1) % 3 == 0)
+                                        {
+                                            if (enemySnakeDirection == "left")
+                                            {
+                                                enemySnakeDirection = "up";
+                                            }
+                                            else
+                                            {
+                                                enemySnakeDirection = "left";
+                                            }
+                                        }
+                                        else if (EnemySnake[i].Y > rows / 2 && (EnemySnake[i].X + 2) % 3 == 0 && (EnemySnake[i].Y + 2) % 3 == 0)
+                                        {
+                                            if (enemySnakeDirection == "right")
+                                            {
+                                                enemySnakeDirection = "up";
+                                            }
+                                            else
+                                            {
+                                                enemySnakeDirection = "right";
+                                            }
+                                        }
+                                    }
+
+                                    switch (enemySnakeDirection)
+                                    {
+                                        case "left":
+                                            EnemySnake[i].X--;
+                                            break;
+                                        case "right":
+                                            EnemySnake[i].X++;
+                                            break;
+                                        case "up":
+                                            EnemySnake[i].Y--;
+                                            break;
+                                        case "down":
+                                            EnemySnake[i].Y++;
+                                            break;
+                                    }
+
+                                    for (int j = 0; j < Snake.Count; j++)
+                                    {
+                                        if (EnemySnake[i].X == Snake[j].X && EnemySnake[i].Y == Snake[j].Y && invTimer == 0)
+                                        {
+                                            DecreaseLives();
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (i == EnemySnake.Count - 1)
+                                    {
+                                        lastPlace = (EnemySnake[i].X, EnemySnake[i].Y);
+                                    }
+                                    EnemySnake[i].X = EnemySnake[i - 1].X;
+                                    EnemySnake[i].Y = EnemySnake[i - 1].Y;
+                                }
+
+                            }
+
+                            enemySleep = 5;
+                        }
+                        else
+                        {
+                            enemySleep--;
+                        }
+                    }
+
+                    string s = matrix[EnemySnake[0].X, EnemySnake[0].Y];
+                    if (s != "" && s[0] == 'f')
+                    {
+                        int ind = int.Parse(s.Substring(1).ToString());
+                        if (ind == 0)
+                        {
+                            Food[ind] = CreateFood(typeof(BasicFood));
+                        }
+                        else
+                        {
+                            Food[ind] = CreateFood(types);
+                        }
+                        matrix[EnemySnake[0].X, EnemySnake[0].Y] = "";
+                        matrix[Food[ind].X, Food[ind].Y] = "f" + ind.ToString();
+
+                        if (EnemySnake.Count < 20)
+                        {
+                            EnemySnake.Add(new Unit { X = lastPlace.Item1, Y = lastPlace.Item2 });
+                        }
                     }
                 }
+                player = true;
             }
+
             if (level < 10 && scoreInt >= level * levelLimit)
             {
                 // provjeriti, dodati tidove, promjene polja
@@ -329,14 +491,14 @@ namespace Zmija
                         break;
                     case 8:
                         level = 9;
-                        Food.Add(CreateFood(types));
+                        types.Add(typeof(LifeFood));
+                        Food.Add(CreateFood(typeof(LifeFood)));
                         break;
                     case 9:
                         level = 10;
                         Food.Add(CreateFood(types));
                         break;
                 }
-                //Food.Add(CreateFood(types));
                 int ind = Food.Count-1;
                 matrix[Food[ind].X, Food[ind].Y] = "f" + ind.ToString();
                 for (int i = 0; i < level-1; i++)
@@ -345,6 +507,20 @@ namespace Zmija
                     Food.Add(CreateBrick(i, cols - level + 2 + i));
                     Food.Add(CreateBrick(rows - level + 2 + i, i));
                     Food.Add(CreateBrick(rows - i, cols - level + 2 + i));
+                }
+
+                if(level == 10)
+                {
+                    for(int j = 1; j <= 2; j++)
+                    {
+                        for (int i = 0; i < level + j - 1; i++)
+                        {
+                            Food.Add(CreateBrick(level + j - 2 - i, i));
+                            Food.Add(CreateBrick(i, cols - level - j + 2 + i));
+                            Food.Add(CreateBrick(rows - level - j + 2 + i, i));
+                            Food.Add(CreateBrick(rows - i, cols - level - j + 2 + i));
+                        }
+                    }
                 }
 
                 score.Text = "BODOVI: " + scoreInt;
@@ -368,15 +544,15 @@ namespace Zmija
                 {
                     invincibility.Text = "";
                 }
-                else if(invTimer % 10 == 9)
+                else if(invTimer % 100 == 9)
                 {
-                    invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 10);
+                    invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 100);
                 }
             }
 
 
             canvas.Invalidate();
-            Thread.Sleep(sleepy_timer);
+            //Thread.Sleep(sleepy_timer);
 
         }
 
@@ -443,13 +619,36 @@ namespace Zmija
                     );
             }
 
-            
+            for (int i = 0; i < EnemySnake.Count; i++)
+            {
+                if (i == 0)
+                {
+                    color = Brushes.SeaGreen;
+                }
+                else
+                {
+                    color = Brushes.MediumAquamarine;
+                }
+
+                g.FillRectangle
+                    (
+                        color,
+                        new Rectangle
+                        (
+                            EnemySnake[i].X * settings.UnitWidth,
+                            EnemySnake[i].Y * settings.UnitHeight,
+                            settings.UnitWidth,
+                            settings.UnitHeight
+                        )
+                    );
+            }
         }
 
         private void DecreaseLives()
         {
             lives--;
-            sleepy_timer = 100;
+            sleepy_timer = 5;
+            currentSleep = 5;
             if(invTimer > 0)
             {
                 invTimer = 0;
@@ -463,8 +662,9 @@ namespace Zmija
             }
             else
             {
-                Snake[0].X = 10;
-                Snake[0].Y = 10;
+                Snake[0].X = 15;
+                Snake[0].Y = 12;
+                settings.Direction = "down";
                 canvas.Invalidate();
             }
         }
@@ -477,16 +677,13 @@ namespace Zmija
 
         private void EatFood(BasicFood food)
         {
-            // npr:
-            // ak je dobra hrana, dodaj novi Unit na kraj zmije
-            // ak je losa hrana, ukloni zadnji Unit zmije
-
-            //scoreInt += 1;
-            // malo glupo rjesenje, radi trenutno (new lives < lives -> decrease)
-            // mozda vratiti i speed
             int newLives;
             bool inv;
             (scoreInt, newLives, sleepy_timer, inv) = food.ActivateEffect(Snake, scoreInt, lives, sleepy_timer);
+            if(sleepy_timer < currentSleep)
+            {
+                currentSleep = sleepy_timer;
+            }
             
             if (newLives < lives)
             {
@@ -494,14 +691,15 @@ namespace Zmija
             }
             else
             {
+                lives = newLives;
                 score.Text = "BODOVI: " + scoreInt;
                 livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
             }
 
             if (inv)
             {
-                invTimer = 300;
-                invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 10);
+                invTimer = 3000;
+                invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 100);
             }
 
             int ind = Food.IndexOf(food);
@@ -516,7 +714,6 @@ namespace Zmija
                 else
                 {
                     var field = FindEmptyField();
-                    //Food[ind] = new BasicFood { X = rand.Next(2, cols), Y = rand.Next(2, rows) };
                     Food[ind] = new BasicFood { X = field.Item1, Y = field.Item2 };
                 }
                 matrix[Food[ind].X, Food[ind].Y] = "f" + ind.ToString();
@@ -570,8 +767,12 @@ namespace Zmija
             types.Add(typeof(BasicFood));
 
             timer.Interval = 10;
-            sleepy_timer = 100;
-            settings.Direction = "left";
+            sleepy_timer = 5;
+            currentSleep = 5;
+            settings.Direction = "down";
+            player = true;
+            EnemySnake.Clear();
+            enemySleep = 5;
 
             timer.Start();
         }
