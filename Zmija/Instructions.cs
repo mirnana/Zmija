@@ -37,7 +37,7 @@ namespace Zmija
             Rectangle[] ostali = new Rectangle[]
             {
                 new Rectangle(16, 0, 16, 16),
-                new Rectangle(32, 0, 16, 16),
+                new Rectangle(16, 16, 16, 16),
                 new Rectangle(32, 16, 16, 16),
                 new Rectangle(32, 32, 16, 16)
             };

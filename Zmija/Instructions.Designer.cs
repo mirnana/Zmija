@@ -172,8 +172,8 @@
             this.textBox20.ReadOnly = true;
             this.textBox20.Size = new System.Drawing.Size(369, 54);
             this.textBox20.TabIndex = 32;
-            this.textBox20.Text = "uvećava broj bodova za 20;\r\nproduljuje zmiju za jednu jedinicu;\r\npovećava broj ži" +
-    "vota za 1";
+            this.textBox20.Text = "povećava broj života za 1;\r\nbroj bodova ostaje isti;\r\nova hrana nestaje s ploče n" +
+    "akon 30 sekundi";
             // 
             // textBox19
             // 
@@ -240,8 +240,8 @@
             this.textBox16.ReadOnly = true;
             this.textBox16.Size = new System.Drawing.Size(369, 54);
             this.textBox16.TabIndex = 26;
-            this.textBox16.Text = "omogućuje da zmija preskoči samu sebe;\r\nsivi zidovi ne ubiju zmiju;\r\nefekt traje " +
-    "30 sekundi i ova hrana nestaje s ploče nakon 30 sekundi";
+            this.textBox16.Text = "uvećava broj bodova za 20;\r\nsivi zidovi i zabijanje u sebe ili protivnika ne ubij" +
+    "u zmiju;\r\nefekt traje 30 sekundi i ova hrana nestaje s ploče nakon 30 sekundi";
             // 
             // textBox15
             // 
@@ -263,7 +263,7 @@
             this.textBox14.ReadOnly = true;
             this.textBox14.Size = new System.Drawing.Size(94, 54);
             this.textBox14.TabIndex = 24;
-            this.textBox14.Text = "ZID";
+            this.textBox14.Text = "zid";
             // 
             // textBox13
             // 
@@ -373,12 +373,12 @@
             this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(369, 54);
             this.textBox6.TabIndex = 13;
-            this.textBox6.Text = "uvećava broj bodova za 20;\r\nskraćuje zmiju za 3 jedinice";
+            this.textBox6.Text = "uvećava broj bodova za 20;\r\nskraćuje zmiju za 2 jedinice";
             // 
             // pictureBox6
             // 
             this.pictureBox6.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox6.BackColor = System.Drawing.Color.Orange;
+            this.pictureBox6.BackColor = System.Drawing.Color.DarkOrange;
             this.pictureBox6.Location = new System.Drawing.Point(31, 337);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Padding = new System.Windows.Forms.Padding(25, 20, 25, 20);
