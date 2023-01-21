@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.textBox20 = new System.Windows.Forms.TextBox();
+            this.textBox19 = new System.Windows.Forms.TextBox();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
@@ -59,7 +64,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox11 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
@@ -69,6 +76,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -78,12 +86,17 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.textBox22, 2, 11);
+            this.tableLayoutPanel1.Controls.Add(this.textBox21, 1, 11);
+            this.tableLayoutPanel1.Controls.Add(this.textBox20, 3, 9);
+            this.tableLayoutPanel1.Controls.Add(this.textBox19, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox10, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.textBox18, 2, 7);
             this.tableLayoutPanel1.Controls.Add(this.textBox17, 1, 7);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox9, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.textBox16, 2, 8);
             this.tableLayoutPanel1.Controls.Add(this.textBox15, 1, 8);
-            this.tableLayoutPanel1.Controls.Add(this.textBox14, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.textBox14, 1, 10);
             this.tableLayoutPanel1.Controls.Add(this.textBox13, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.textBox12, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.textBox11, 1, 4);
@@ -91,7 +104,7 @@
             this.tableLayoutPanel1.Controls.Add(this.textBox9, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.textBox8, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox8, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.textBox7, 2, 9);
+            this.tableLayoutPanel1.Controls.Add(this.textBox7, 2, 10);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox7, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.textBox6, 2, 6);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox6, 0, 6);
@@ -108,9 +121,10 @@
             this.tableLayoutPanel1.Controls.Add(this.label2, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox11, 0, 11);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 10;
+            this.tableLayoutPanel1.RowCount = 12;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
@@ -121,8 +135,67 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(575, 573);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(575, 721);
             this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // textBox22
+            // 
+            this.textBox22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox22.Location = new System.Drawing.Point(206, 635);
+            this.textBox22.Multiline = true;
+            this.textBox22.Name = "textBox22";
+            this.textBox22.ReadOnly = true;
+            this.textBox22.Size = new System.Drawing.Size(369, 82);
+            this.textBox22.TabIndex = 35;
+            this.textBox22.Text = "umanjuje broj života za 1;\r\nbroj bodova ostaje isti;\r\nkreće se samostalno po ploč" +
+    "i";
+            // 
+            // textBox21
+            // 
+            this.textBox21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox21.Location = new System.Drawing.Point(105, 635);
+            this.textBox21.Multiline = true;
+            this.textBox21.Name = "textBox21";
+            this.textBox21.ReadOnly = true;
+            this.textBox21.Size = new System.Drawing.Size(94, 82);
+            this.textBox21.TabIndex = 34;
+            this.textBox21.Text = "protivnička zmija";
+            // 
+            // textBox20
+            // 
+            this.textBox20.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox20.Location = new System.Drawing.Point(206, 513);
+            this.textBox20.Multiline = true;
+            this.textBox20.Name = "textBox20";
+            this.textBox20.ReadOnly = true;
+            this.textBox20.Size = new System.Drawing.Size(369, 54);
+            this.textBox20.TabIndex = 32;
+            this.textBox20.Text = "uvećava broj bodova za 20;\r\nproduljuje zmiju za jednu jedinicu;\r\npovećava broj ži" +
+    "vota za 1";
+            // 
+            // textBox19
+            // 
+            this.textBox19.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox19.Location = new System.Drawing.Point(105, 513);
+            this.textBox19.Multiline = true;
+            this.textBox19.Name = "textBox19";
+            this.textBox19.ReadOnly = true;
+            this.textBox19.Size = new System.Drawing.Size(94, 54);
+            this.textBox19.TabIndex = 31;
+            this.textBox19.Text = "oživljavajuća hrana";
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox10.BackColor = System.Drawing.Color.DarkGray;
+            this.pictureBox10.Location = new System.Drawing.Point(31, 581);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Padding = new System.Windows.Forms.Padding(25, 20, 25, 20);
+            this.pictureBox10.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox10.TabIndex = 30;
+            this.pictureBox10.TabStop = false;
             // 
             // textBox18
             // 
@@ -184,11 +257,11 @@
             // textBox14
             // 
             this.textBox14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox14.Location = new System.Drawing.Point(105, 513);
+            this.textBox14.Location = new System.Drawing.Point(105, 574);
             this.textBox14.Multiline = true;
             this.textBox14.Name = "textBox14";
             this.textBox14.ReadOnly = true;
-            this.textBox14.Size = new System.Drawing.Size(94, 56);
+            this.textBox14.Size = new System.Drawing.Size(94, 54);
             this.textBox14.TabIndex = 24;
             this.textBox14.Text = "ZID";
             // 
@@ -272,19 +345,19 @@
             // textBox7
             // 
             this.textBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox7.Location = new System.Drawing.Point(206, 513);
+            this.textBox7.Location = new System.Drawing.Point(206, 574);
             this.textBox7.Multiline = true;
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(369, 56);
+            this.textBox7.Size = new System.Drawing.Size(369, 54);
             this.textBox7.TabIndex = 15;
             this.textBox7.Text = "umanjuje broj života za 1;\r\nbroj bodova ostaje isti";
             // 
             // pictureBox7
             // 
             this.pictureBox7.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox7.BackColor = System.Drawing.Color.DarkGray;
-            this.pictureBox7.Location = new System.Drawing.Point(31, 521);
+            this.pictureBox7.BackColor = System.Drawing.Color.Aqua;
+            this.pictureBox7.Location = new System.Drawing.Point(31, 520);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Padding = new System.Windows.Forms.Padding(25, 20, 25, 20);
             this.pictureBox7.Size = new System.Drawing.Size(40, 40);
@@ -451,19 +524,32 @@
             this.label3.TabIndex = 17;
             this.label3.Text = "Naziv prepreke";
             // 
+            // pictureBox11
+            // 
+            this.pictureBox11.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox11.BackColor = System.Drawing.Color.White;
+            this.pictureBox11.Location = new System.Drawing.Point(27, 652);
+            this.pictureBox11.Name = "pictureBox11";
+            this.pictureBox11.Padding = new System.Windows.Forms.Padding(25, 3, 25, 3);
+            this.pictureBox11.Size = new System.Drawing.Size(48, 48);
+            this.pictureBox11.TabIndex = 33;
+            this.pictureBox11.TabStop = false;
+            this.pictureBox11.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox11_Paint);
+            // 
             // Instructions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(595, 470);
+            this.ClientSize = new System.Drawing.Size(585, 505);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Instructions";
             this.Text = "Upute";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Instructions_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
@@ -473,6 +559,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -509,5 +596,11 @@
         private System.Windows.Forms.TextBox textBox18;
         private System.Windows.Forms.TextBox textBox17;
         private System.Windows.Forms.PictureBox pictureBox9;
+        private System.Windows.Forms.PictureBox pictureBox10;
+        private System.Windows.Forms.TextBox textBox20;
+        private System.Windows.Forms.TextBox textBox19;
+        private System.Windows.Forms.TextBox textBox22;
+        private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.PictureBox pictureBox11;
     }
 }
