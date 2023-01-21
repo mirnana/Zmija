@@ -43,7 +43,7 @@
             // 
             this.canvas.BackColor = System.Drawing.Color.White;
             this.canvas.Location = new System.Drawing.Point(0, 0);
-            this.canvas.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.canvas.Margin = new System.Windows.Forms.Padding(0);
             this.canvas.Name = "canvas";
             this.canvas.Size = new System.Drawing.Size(640, 640);
             this.canvas.TabIndex = 0;
@@ -56,6 +56,7 @@
             this.start.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.start.Location = new System.Drawing.Point(200, 641);
+            this.start.Margin = new System.Windows.Forms.Padding(0);
             this.start.Name = "start";
             this.start.Size = new System.Drawing.Size(239, 60);
             this.start.TabIndex = 1;
@@ -72,6 +73,7 @@
             this.help.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.help.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.help.Location = new System.Drawing.Point(0, 641);
+            this.help.Margin = new System.Windows.Forms.Padding(0);
             this.help.Name = "help";
             this.help.Size = new System.Drawing.Size(200, 60);
             this.help.TabIndex = 4;
@@ -82,6 +84,7 @@
             this.score.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.score.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.score.Location = new System.Drawing.Point(440, 641);
+            this.score.Margin = new System.Windows.Forms.Padding(0);
             this.score.Name = "score";
             this.score.Size = new System.Drawing.Size(200, 60);
             this.score.TabIndex = 5;
@@ -104,8 +107,7 @@
             // 
             // ZmijaForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(640, 699);
@@ -115,8 +117,8 @@
             this.Controls.Add(this.help);
             this.Controls.Add(this.start);
             this.Controls.Add(this.canvas);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ZmijaForm";
             this.Text = "Zmija";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ZmijaForm_KeyDown);
