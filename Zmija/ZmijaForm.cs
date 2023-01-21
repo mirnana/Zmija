@@ -11,7 +11,6 @@ namespace Zmija
 {
     public partial class ZmijaForm : Form
     {
-        //private Unit Food = new Unit(); // food moze biti isto lista hrane, mozemo napraviti klase BadFood i GoodFood koje ce imat los tj dobar ucinak na zmiju
         private List<BasicFood> Food = new List<BasicFood>();
         private List<Unit> Snake = new List<Unit>();
         private int scoreInt = 0;
@@ -30,9 +29,6 @@ namespace Zmija
         private string enemySnakeDirection;
         private int currentSleep;
         private int enemySleep;
-
-
-
 
         Random rand = new Random();
         public static Settings settings;
@@ -164,7 +160,7 @@ namespace Zmija
                 down = false;
             }
         }
-        //note to self, napraviti provjeru postoji li na ovom polju vec neka hrana
+
         private (int, int) FindEmptyField()
         {
             var filteredList = Enumerable.Range(0, matrix.GetLength(0))
@@ -231,7 +227,6 @@ namespace Zmija
             PropertyInfo yProperty = type.GetProperty("Y");
             yProperty.SetValue(brick, yPosition);
 
-            // ne radi, ne prebaci hranu, prebaci brick.... fix [1] -> .Substring(1) ako sam negdje zaboravila
             if (matrix[xPosition, yPosition] != "" && matrix[xPosition, yPosition][0] == 'f')
             {
                 var field = FindEmptyField();
@@ -569,9 +564,7 @@ namespace Zmija
                     }
                 }
 
-                //setScoreText();
-                score.Text = "BODOVI: " + scoreInt;
-                livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
+                setScoreText();
             }
 
             for (int i = 0; i < Food.Count; i++)
@@ -587,15 +580,7 @@ namespace Zmija
             if(invTimer > 0)
             {
                 invTimer--;
-                //setScoreText(); umjesto cijelog if elsea
-                if(invTimer == 0)
-                {
-                    invincibility.Text = "";
-                }
-                else if(invTimer % 100 == 9)
-                {
-                    invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 100);
-                }
+                setScoreText(); 
             }
 
 
@@ -692,11 +677,6 @@ namespace Zmija
             }
         }
 
-        private void canvas_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void DecreaseLives()
         {
             lives--;
@@ -706,10 +686,9 @@ namespace Zmija
             if(invTimer > 0)
             {
                 invTimer = 0;
-                //setScoreText();
-                invincibility.Text = "";
             }
-            livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;//ovo isto ne treba
+
+            setScoreText();
 
             if (lives <= 0)
             {
@@ -729,11 +708,6 @@ namespace Zmija
                 settings.Direction = "down";
                 canvas.Invalidate();
             }
-        }
-
-        private void livesAndLevel_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void GameOver()
@@ -758,17 +732,14 @@ namespace Zmija
             }
             else
             {
-                //setScoreText();
                 lives = newLives;
-                score.Text = "BODOVI: " + scoreInt;
-                livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
+                setScoreText();
             }
 
             if (inv)
             {
-                //setScoreText();
                 invTimer = 3000;
-                invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 100);
+                setScoreText();
             }
 
             int ind = Food.IndexOf(food);
@@ -803,11 +774,8 @@ namespace Zmija
             levelLimit = 100;
             invTimer = 0;
             // dodati brzinu i "do iduceg levela"?
-            //setScoreText();
-            score.Text = "BODOVI: " + scoreInt;
-            livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
-            invincibility.Text = "";
-
+            setScoreText();
+            
             Unit head = new Unit { X = 10, Y = 10 };
             Snake.Add(head);
 
@@ -847,7 +815,9 @@ namespace Zmija
             timer.Start();
         }
 
-        // predlažem ovu metodu da smanjimo ponavljanje koda
+        /// <summary>
+        /// postavlja tekst o napretku igre u za to namijenjeni Label
+        /// </summary>
         private void setScoreText()
         {
             score.Text = "BODOVI: " + scoreInt + Environment.NewLine
@@ -855,7 +825,7 @@ namespace Zmija
                         + "LEVEL: " + level + Environment.NewLine;
             if (invTimer != 0)
             {
-                score.Text += "INV TIMER: " + Math.Ceiling((double)invTimer / 10);
+                score.Text += "TIMER NEPOBJEDIVOSTI: " + Math.Ceiling((double)invTimer / 100);
             }
         }
     }

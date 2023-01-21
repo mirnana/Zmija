@@ -28,5 +28,20 @@ namespace Zmija
                 this.Close();
             }
         }
+
+        private void pictureBox11_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            g.FillRectangle(Brushes.SeaGreen, 0, 0, 16, 16);
+            Rectangle[] ostali = new Rectangle[]
+            {
+                new Rectangle(16, 0, 16, 16),
+                new Rectangle(32, 0, 16, 16),
+                new Rectangle(32, 16, 16, 16),
+                new Rectangle(32, 32, 16, 16)
+            };
+            g.FillRectangles(Brushes.MediumAquamarine, ostali);
+        }
     }
 }
