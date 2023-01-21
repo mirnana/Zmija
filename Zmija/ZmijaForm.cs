@@ -31,7 +31,8 @@ namespace Zmija
         private int currentSleep;
         private int enemySleep;
         private bool[] new_direction = new bool[4]; //left right up down
-
+        private List<String> movement = new List<string>();
+        private string snake_move;
 
 
 
@@ -87,6 +88,7 @@ namespace Zmija
                 if (e.KeyCode.ToString() == settings.GoLeftKey)
                 {
                     left = true;
+                    movement.Add("left");
                     if (e.Shift)
                     {
                         int koliko = Snake[0].X - 1;
@@ -101,6 +103,8 @@ namespace Zmija
                 if (e.KeyCode.ToString() == settings.GoRightKey)
                 {
                     right = true;
+                    movement.Add("right");
+
                     if (e.Shift)
                     {
                         int koliko = cols - Snake[0].X - 1;
@@ -115,6 +119,8 @@ namespace Zmija
                 if (e.KeyCode.ToString() == settings.GoUpKey)
                 {
                     up = true;
+                    movement.Add("up");
+
                     if (e.Shift)
                     {
                         int koliko = Snake[0].Y - 1;
@@ -129,6 +135,8 @@ namespace Zmija
                 if (e.KeyCode.ToString() == settings.GoDownKey)
                 {
                     down = true;
+                    movement.Add("down");
+
                     if (e.Shift)
                     {
                         int koliko = rows - Snake[0].Y - 1;
@@ -255,27 +263,38 @@ namespace Zmija
         {
             if (player)
             {
-                if (left && settings.Direction != "right")
+                if (factor != 1 || currentSleep == 1)
                 {
+                    if (movement.Count > 0)
+                        snake_move = movement.Last();
+                    else snake_move = settings.Direction;
+                    movement.Clear();
+                switch (snake_move)
+                {
+                case "left": 
+                    if( settings.Direction != "right")
                     settings.Direction = "left";
-                }
-                else if (right && settings.Direction != "left")
-                {
-                    settings.Direction = "right";
-                }
-                else if (up && settings.Direction != "down")
-                {
-                    settings.Direction = "up";
-                }
-                else if (down && settings.Direction != "up")
-                {
-                    settings.Direction = "down";
-                }
+                    break;
+                 case "right":
+                    if (settings.Direction != "left")
+                       settings.Direction = "right";
+                    break;
+                case "up":
+                    if (settings.Direction != "down")
+                       settings.Direction = "up";
+                    break;
+                case "down":
+                    if (settings.Direction != "up")
+                       settings.Direction = "down";
+                    break;
+                   default: break;
+                    }
+              
+                       
 
-                for (int k = 0; k < factor; k++)
+                    for (int k = 0; k < factor; k++)
                 {
-                    if(factor != 1 || currentSleep == 1)
-                    {
+                    
                         for (int i = Snake.Count - 1; i >= 0; i--)
                         {
                             if (i == 0)
@@ -339,9 +358,10 @@ namespace Zmija
                             }
                         }
                         currentSleep = sleepy_timer;
-                    }
+                    
                 }
-                if(currentSleep > 1)
+                }
+                if (currentSleep > 1)
                     currentSleep--;
 
                 factor = 1;
@@ -804,7 +824,7 @@ namespace Zmija
             livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
             invincibility.Text = "";
 
-            Unit head = new Unit { X = 10, Y = 10 };
+            Unit head = new Unit { X = 15, Y = 12 };
             Snake.Add(head);
 
             for (int i = 0; i < 5; i++)
