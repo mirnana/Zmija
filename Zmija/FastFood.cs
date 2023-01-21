@@ -22,7 +22,7 @@ namespace Zmija
                 Y = Snake[Snake.Count - 1].Y,
             };
             Snake.Add(rear);
-            if(timer > 1)
+            if(timer > 2)
             {
                 timer = timer - 1;
             }

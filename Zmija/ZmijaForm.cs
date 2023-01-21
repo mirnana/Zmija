@@ -33,6 +33,7 @@ namespace Zmija
 
 
 
+
         Random rand = new Random();
         public static Settings settings;
 
@@ -130,7 +131,9 @@ namespace Zmija
             var filteredList = Enumerable.Range(0, matrix.GetLength(0))
                              .SelectMany(i => Enumerable.Range(0, matrix.GetLength(1))
                              .Select(j => new { i, j }))
-                             .Where(ij => matrix[ij.i, ij.j] == "");
+                             .Where(ij => matrix[ij.i, ij.j] == "" && Snake[0].X != ij.i && Snake[0].Y != ij.j
+                             && Snake[0].X + 1!= ij.i && Snake[0].Y + 1 != ij.j 
+                             && Snake[0].X - 1!= ij.i && Snake[0].Y - 1 != ij.j);
             var newField = filteredList.ElementAt(rand.Next(filteredList.Count()));
             return (newField.i, newField.j);
         }
@@ -148,6 +151,8 @@ namespace Zmija
                 unusableTypes.Add(typeof(InvincibleFood));
             if (Snake.Count < 5)
                 unusableTypes.Add(typeof(ShortFood));
+            if (lives > 1)
+                unusableTypes.Add(typeof(LifeFood));
 
             Type type = availableTypes.Except(unusableTypes).ToList()[rand.Next(availableTypes.Except(unusableTypes).ToList().Count)];
             object food = Activator.CreateInstance(type);
@@ -210,19 +215,19 @@ namespace Zmija
         {
             if (player)
             {
-                if (left)
+                if (left && settings.Direction != "right")
                 {
                     settings.Direction = "left";
                 }
-                if (right)
+                if (right && settings.Direction != "left")
                 {
                     settings.Direction = "right";
                 }
-                if (up)
+                if (up && settings.Direction != "down")
                 {
                     settings.Direction = "up";
                 }
-                if (down)
+                if (down && settings.Direction != "up")
                 {
                     settings.Direction = "down";
                 }
@@ -296,7 +301,9 @@ namespace Zmija
                         currentSleep = sleepy_timer;
                     }
                 }
-                currentSleep--;
+                if(currentSleep > 1)
+                    currentSleep--;
+
                 factor = 1;
                 player = false;
             }
@@ -644,9 +651,15 @@ namespace Zmija
             }
         }
 
+        private void canvas_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void DecreaseLives()
         {
             lives--;
+
             sleepy_timer = 5;
             currentSleep = 5;
             if(invTimer > 0)
@@ -662,8 +675,15 @@ namespace Zmija
             }
             else
             {
-                Snake[0].X = 15;
-                Snake[0].Y = 12;
+                int snake_length = Snake.Count;
+                Snake.Clear();
+                Unit head = new Unit { X = 15, Y = 12 };
+                Snake.Add(head);
+                for (int i = 0; i < snake_length; i++)
+                {
+                    Snake.Add(new Unit());
+                }
+          
                 settings.Direction = "down";
                 canvas.Invalidate();
             }
