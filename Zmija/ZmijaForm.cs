@@ -82,25 +82,64 @@ namespace Zmija
                     string s = e.KeyCode.ToString();
                     factor = int.Parse(s.Substring(s.Length - 1));
                 }
+
                 if (e.KeyCode.ToString() == settings.GoLeftKey && settings.Direction != "right")
                 {
                     left = true;
+                    if (e.Shift)
+                    {
+                        int koliko = Snake[0].X - 1;
+                        int kamo = cols;
+                        while (matrix[kamo--, Snake[0].Y] == "b")
+                        {
+                            koliko--;
+                        }
+                        factor = koliko;
+                    }
                 }
                 if (e.KeyCode.ToString() == settings.GoRightKey && settings.Direction != "left")
                 {
                     right = true;
+                    if (e.Shift)
+                    {
+                        int koliko = cols - Snake[0].X - 1;
+                        int kamo = 0;
+                        while (matrix[kamo++, Snake[0].Y] == "b")
+                        {
+                            koliko--;
+                        }
+                        factor = koliko;
+                    }
                 }
                 if (e.KeyCode.ToString() == settings.GoUpKey && settings.Direction != "down")
                 {
                     up = true;
+                    if (e.Shift)
+                    {
+                        int koliko = Snake[0].Y - 1;
+                        int kamo = 0;
+                        while (matrix[Snake[0].X, kamo++] == "b")
+                        {
+                            koliko--;
+                        }
+                        factor = koliko;
+                    }
                 }
                 if (e.KeyCode.ToString() == settings.GoDownKey && settings.Direction != "up")
                 {
                     down = true;
+                    if (e.Shift)
+                    {
+                        int koliko = rows - Snake[0].Y - 1;
+                        int kamo = rows;
+                        while (matrix[Snake[0].X, kamo--] == "b")
+                        {
+                            koliko--;
+                        }
+                        factor = koliko;
+                    }
                 }
             }
-
-
         }
         private void ZmijaForm_KeyUp(object sender, KeyEventArgs e)
         {
@@ -530,6 +569,7 @@ namespace Zmija
                     }
                 }
 
+                //setScoreText();
                 score.Text = "BODOVI: " + scoreInt;
                 livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
             }
@@ -547,6 +587,7 @@ namespace Zmija
             if(invTimer > 0)
             {
                 invTimer--;
+                //setScoreText(); umjesto cijelog if elsea
                 if(invTimer == 0)
                 {
                     invincibility.Text = "";
@@ -665,9 +706,10 @@ namespace Zmija
             if(invTimer > 0)
             {
                 invTimer = 0;
+                //setScoreText();
                 invincibility.Text = "";
             }
-            livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
+            livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;//ovo isto ne treba
 
             if (lives <= 0)
             {
@@ -711,6 +753,7 @@ namespace Zmija
             }
             else
             {
+                //setScoreText();
                 lives = newLives;
                 score.Text = "BODOVI: " + scoreInt;
                 livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
@@ -718,6 +761,7 @@ namespace Zmija
 
             if (inv)
             {
+                //setScoreText();
                 invTimer = 3000;
                 invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 100);
             }
@@ -754,6 +798,7 @@ namespace Zmija
             levelLimit = 100;
             invTimer = 0;
             // dodati brzinu i "do iduceg levela"?
+            //setScoreText();
             score.Text = "BODOVI: " + scoreInt;
             livesAndLevel.Text = "ŽIVOTI: " + lives + Environment.NewLine + "LEVEL: " + level;
             invincibility.Text = "";
@@ -795,6 +840,18 @@ namespace Zmija
             enemySleep = 5;
 
             timer.Start();
+        }
+
+        // predlažem ovu metodu da smanjimo ponavljanje koda
+        private void setScoreText()
+        {
+            score.Text = "BODOVI: " + scoreInt + Environment.NewLine
+                        + "ŽIVOTI: " + lives + Environment.NewLine
+                        + "LEVEL: " + level + Environment.NewLine;
+            if (invTimer != 0)
+            {
+                score.Text += "INV TIMER: " + Math.Ceiling((double)invTimer / 10);
+            }
         }
     }
 }

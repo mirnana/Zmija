@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace Zmija
 {
+    /// <summary>
+    /// forma u koju smještamo korisničke upute, odnosno objašnjenja o funkcionalnostima igrice
+    /// </summary>
     public partial class Instructions : Form
     {
         public Instructions()

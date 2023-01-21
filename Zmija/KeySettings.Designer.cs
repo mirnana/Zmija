@@ -48,30 +48,31 @@
             this.keyChange8 = new Zmija.KeyChange();
             this.keyChange9 = new Zmija.KeyChange();
             this.label4 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label5 = new System.Windows.Forms.Label();
             this.keyChange_instructions = new Zmija.KeyChange();
-            this.keyChange_close = new Zmija.KeyChange();
             this.keyChange_keySettings = new Zmija.KeyChange();
+            this.keyChange_close = new Zmija.KeyChange();
             this.panelLeft.SuspendLayout();
             this.panelRight.SuspendLayout();
             this.panelUp.SuspendLayout();
             this.panelDown.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelLeft
             // 
+            this.panelLeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelLeft.Controls.Add(this.keyChange12);
             this.panelLeft.Controls.Add(this.keyChange11);
             this.panelLeft.Controls.Add(this.keyChange10);
             this.panelLeft.Controls.Add(this.label1);
-            this.panelLeft.Location = new System.Drawing.Point(3, 89);
+            this.panelLeft.Location = new System.Drawing.Point(11, 25);
             this.panelLeft.Name = "panelLeft";
             this.panelLeft.Size = new System.Drawing.Size(776, 111);
             this.panelLeft.TabIndex = 0;
             // 
             // keyChange12
             // 
+            this.keyChange12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange12.command = "shift + ";
             this.keyChange12.functionality = "Kretanje ulijevo do kraja";
             this.keyChange12.key = "";
@@ -84,10 +85,11 @@
             // 
             // keyChange11
             // 
+            this.keyChange11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange11.command = "*broj* + ";
             this.keyChange11.functionality = "Kretanje ulijevo za *broj*";
             this.keyChange11.key = "";
-            this.keyChange11.Location = new System.Drawing.Point(263, 28);
+            this.keyChange11.Location = new System.Drawing.Point(263, 27);
             this.keyChange11.Name = "keyChange11";
             this.keyChange11.Size = new System.Drawing.Size(250, 80);
             this.keyChange11.TabIndex = 5;
@@ -96,6 +98,7 @@
             // 
             // keyChange10
             // 
+            this.keyChange10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange10.command = "";
             this.keyChange10.functionality = "Kretanje ulijevo";
             this.keyChange10.key = "";
@@ -117,17 +120,19 @@
             // 
             // panelRight
             // 
+            this.panelRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelRight.Controls.Add(this.keyChange1);
             this.panelRight.Controls.Add(this.keyChange2);
             this.panelRight.Controls.Add(this.keyChange3);
             this.panelRight.Controls.Add(this.label2);
-            this.panelRight.Location = new System.Drawing.Point(3, 206);
+            this.panelRight.Location = new System.Drawing.Point(11, 142);
             this.panelRight.Name = "panelRight";
             this.panelRight.Size = new System.Drawing.Size(776, 111);
             this.panelRight.TabIndex = 1;
             // 
             // keyChange1
             // 
+            this.keyChange1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange1.command = "shift + ";
             this.keyChange1.functionality = "Kretanje udesno do kraja";
             this.keyChange1.key = "";
@@ -140,6 +145,7 @@
             // 
             // keyChange2
             // 
+            this.keyChange2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange2.command = "*broj* + ";
             this.keyChange2.functionality = "Kretanje udesno za *broj*";
             this.keyChange2.key = "";
@@ -152,6 +158,7 @@
             // 
             // keyChange3
             // 
+            this.keyChange3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange3.command = "";
             this.keyChange3.functionality = "Kretanje udesno";
             this.keyChange3.key = "";
@@ -173,17 +180,19 @@
             // 
             // panelUp
             // 
+            this.panelUp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelUp.Controls.Add(this.keyChange4);
             this.panelUp.Controls.Add(this.keyChange5);
             this.panelUp.Controls.Add(this.keyChange6);
             this.panelUp.Controls.Add(this.label3);
-            this.panelUp.Location = new System.Drawing.Point(3, 323);
+            this.panelUp.Location = new System.Drawing.Point(11, 259);
             this.panelUp.Name = "panelUp";
             this.panelUp.Size = new System.Drawing.Size(776, 111);
             this.panelUp.TabIndex = 2;
             // 
             // keyChange4
             // 
+            this.keyChange4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange4.command = "shift + ";
             this.keyChange4.functionality = "Kretanje prema gore do kraja";
             this.keyChange4.key = "";
@@ -196,6 +205,7 @@
             // 
             // keyChange5
             // 
+            this.keyChange5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange5.command = "*broj* + ";
             this.keyChange5.functionality = "Kretanje prema gore za *broj*";
             this.keyChange5.key = "";
@@ -208,6 +218,7 @@
             // 
             // keyChange6
             // 
+            this.keyChange6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange6.command = "";
             this.keyChange6.functionality = "Kretanje prema gore";
             this.keyChange6.key = "";
@@ -229,17 +240,19 @@
             // 
             // panelDown
             // 
+            this.panelDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelDown.Controls.Add(this.keyChange7);
             this.panelDown.Controls.Add(this.keyChange8);
             this.panelDown.Controls.Add(this.keyChange9);
             this.panelDown.Controls.Add(this.label4);
-            this.panelDown.Location = new System.Drawing.Point(3, 440);
+            this.panelDown.Location = new System.Drawing.Point(11, 376);
             this.panelDown.Name = "panelDown";
             this.panelDown.Size = new System.Drawing.Size(776, 111);
             this.panelDown.TabIndex = 3;
             // 
             // keyChange7
             // 
+            this.keyChange7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange7.command = "shift + ";
             this.keyChange7.functionality = "Kretanje prema dolje do kraja";
             this.keyChange7.key = "";
@@ -252,6 +265,7 @@
             // 
             // keyChange8
             // 
+            this.keyChange8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange8.command = "*broj* + ";
             this.keyChange8.functionality = "Kretanje prema dolje za *broj*";
             this.keyChange8.key = "";
@@ -264,6 +278,7 @@
             // 
             // keyChange9
             // 
+            this.keyChange9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange9.command = "";
             this.keyChange9.functionality = "Kretanje prema dolje";
             this.keyChange9.key = "";
@@ -283,67 +298,71 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "KRETANJE PREMA DOLJE";
             // 
-            // flowLayoutPanel1
+            // label5
             // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.Controls.Add(this.keyChange_instructions);
-            this.flowLayoutPanel1.Controls.Add(this.keyChange_close);
-            this.flowLayoutPanel1.Controls.Add(this.panelLeft);
-            this.flowLayoutPanel1.Controls.Add(this.panelRight);
-            this.flowLayoutPanel1.Controls.Add(this.panelUp);
-            this.flowLayoutPanel1.Controls.Add(this.panelDown);
-            this.flowLayoutPanel1.Controls.Add(this.keyChange_keySettings);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(810, 583);
-            this.flowLayoutPanel1.TabIndex = 4;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 9);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(534, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Odaberite kontrolu vezanu za željenu funkcionalnost, stisnite željenu tipku te sp" +
+    "remite promjenu klikom na gumb.";
             // 
             // keyChange_instructions
             // 
+            this.keyChange_instructions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange_instructions.command = "ctrl + ";
             this.keyChange_instructions.functionality = "Upute";
             this.keyChange_instructions.key = "";
-            this.keyChange_instructions.Location = new System.Drawing.Point(3, 3);
+            this.keyChange_instructions.Location = new System.Drawing.Point(793, 287);
             this.keyChange_instructions.Name = "keyChange_instructions";
             this.keyChange_instructions.Size = new System.Drawing.Size(250, 80);
             this.keyChange_instructions.TabIndex = 5;
             this.keyChange_instructions.izmijeni_Click += new System.EventHandler<string>(this.keyChange_instructions_izmijeni_Click);
             this.keyChange_instructions.Load += new System.EventHandler(this.keyChange_instructions_Load);
             // 
-            // keyChange_close
-            // 
-            this.keyChange_close.command = "";
-            this.keyChange_close.functionality = "Zatvaranje prozora";
-            this.keyChange_close.key = "";
-            this.keyChange_close.Location = new System.Drawing.Point(259, 3);
-            this.keyChange_close.Name = "keyChange_close";
-            this.keyChange_close.Size = new System.Drawing.Size(250, 80);
-            this.keyChange_close.TabIndex = 6;
-            this.keyChange_close.izmijeni_Click += new System.EventHandler<string>(this.keyChange_close_izmijeni_Click);
-            this.keyChange_close.Load += new System.EventHandler(this.keyChange_close_Load);
-            // 
             // keyChange_keySettings
             // 
+            this.keyChange_keySettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.keyChange_keySettings.command = "ctrl + ";
             this.keyChange_keySettings.functionality = "Postavke";
             this.keyChange_keySettings.key = "";
-            this.keyChange_keySettings.Location = new System.Drawing.Point(3, 557);
+            this.keyChange_keySettings.Location = new System.Drawing.Point(793, 170);
             this.keyChange_keySettings.Name = "keyChange_keySettings";
             this.keyChange_keySettings.Size = new System.Drawing.Size(250, 80);
             this.keyChange_keySettings.TabIndex = 4;
             this.keyChange_keySettings.izmijeni_Click += new System.EventHandler<string>(this.keyChange_keySettings_izmijeni_Click);
             this.keyChange_keySettings.Load += new System.EventHandler(this.keyChange_keySettings_Load);
             // 
+            // keyChange_close
+            // 
+            this.keyChange_close.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.keyChange_close.command = "";
+            this.keyChange_close.functionality = "Zatvaranje prozora";
+            this.keyChange_close.key = "";
+            this.keyChange_close.Location = new System.Drawing.Point(793, 53);
+            this.keyChange_close.Name = "keyChange_close";
+            this.keyChange_close.Size = new System.Drawing.Size(250, 80);
+            this.keyChange_close.TabIndex = 6;
+            this.keyChange_close.izmijeni_Click += new System.EventHandler<string>(this.keyChange_close_izmijeni_Click);
+            this.keyChange_close.Load += new System.EventHandler(this.keyChange_close_Load);
+            // 
             // KeySettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(810, 583);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(1049, 500);
+            this.Controls.Add(this.keyChange_keySettings);
+            this.Controls.Add(this.panelDown);
+            this.Controls.Add(this.keyChange_close);
+            this.Controls.Add(this.panelUp);
+            this.Controls.Add(this.keyChange_instructions);
+            this.Controls.Add(this.panelRight);
+            this.Controls.Add(this.panelLeft);
+            this.Controls.Add(this.label5);
             this.Name = "KeySettings";
             this.Text = "Postavke";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeySettings_KeyDown);
             this.panelLeft.ResumeLayout(false);
             this.panelLeft.PerformLayout();
             this.panelRight.ResumeLayout(false);
@@ -352,8 +371,8 @@
             this.panelUp.PerformLayout();
             this.panelDown.ResumeLayout(false);
             this.panelDown.PerformLayout();
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -367,7 +386,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panelDown;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private KeyChange keyChange10;
         private KeyChange keyChange12;
         private KeyChange keyChange11;
@@ -383,5 +401,6 @@
         private KeyChange keyChange_keySettings;
         private KeyChange keyChange_instructions;
         private KeyChange keyChange_close;
+        private System.Windows.Forms.Label label5;
     }
 }
