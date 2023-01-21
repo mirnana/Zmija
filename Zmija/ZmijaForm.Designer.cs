@@ -55,10 +55,10 @@
             // 
             this.start.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.start.Location = new System.Drawing.Point(200, 641);
+            this.start.Location = new System.Drawing.Point(200, 648);
             this.start.Margin = new System.Windows.Forms.Padding(0);
             this.start.Name = "start";
-            this.start.Size = new System.Drawing.Size(239, 60);
+            this.start.Size = new System.Drawing.Size(239, 53);
             this.start.TabIndex = 1;
             this.start.Text = "START";
             this.start.UseVisualStyleBackColor = true;
@@ -72,10 +72,10 @@
             // 
             this.help.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.help.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.help.Location = new System.Drawing.Point(0, 641);
+            this.help.Location = new System.Drawing.Point(0, 648);
             this.help.Margin = new System.Windows.Forms.Padding(0);
             this.help.Name = "help";
-            this.help.Size = new System.Drawing.Size(200, 60);
+            this.help.Size = new System.Drawing.Size(200, 53);
             this.help.TabIndex = 4;
             this.help.Text = "POSTAVKE: ctrl  + P\r\nUPUTE: ctrl + U";
             // 
@@ -83,24 +83,25 @@
             // 
             this.score.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.score.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.score.Location = new System.Drawing.Point(440, 641);
+            this.score.Location = new System.Drawing.Point(439, 648);
             this.score.Margin = new System.Windows.Forms.Padding(0);
             this.score.Name = "score";
-            this.score.Size = new System.Drawing.Size(200, 60);
+            this.score.Size = new System.Drawing.Size(200, 53);
             this.score.TabIndex = 5;
             // 
             // livesAndLevel
             // 
             this.livesAndLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.livesAndLevel.Location = new System.Drawing.Point(154, 641);
+            this.livesAndLevel.Location = new System.Drawing.Point(130, 648);
             this.livesAndLevel.Name = "livesAndLevel";
-            this.livesAndLevel.Size = new System.Drawing.Size(46, 24);
+            this.livesAndLevel.Size = new System.Drawing.Size(58, 24);
             this.livesAndLevel.TabIndex = 6;
+            this.livesAndLevel.Click += new System.EventHandler(this.livesAndLevel_Click);
             // 
             // invincibility
             // 
             this.invincibility.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.invincibility.Location = new System.Drawing.Point(135, 680);
+            this.invincibility.Location = new System.Drawing.Point(453, 680);
             this.invincibility.Name = "invincibility";
             this.invincibility.Size = new System.Drawing.Size(65, 10);
             this.invincibility.TabIndex = 7;

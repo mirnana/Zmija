@@ -731,6 +731,11 @@ namespace Zmija
             }
         }
 
+        private void livesAndLevel_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void GameOver()
         {
             timer.Stop();
