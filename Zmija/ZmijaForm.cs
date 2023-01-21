@@ -46,6 +46,9 @@ namespace Zmija
             settings = new Settings();
         }
 
+        /// <summary>
+        /// Metoda registrira i sprema (ukoliko je validan) unos tipkovnice.
+        /// </summary>
         private void ZmijaForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode.ToString() == settings.CloseKey)
@@ -150,6 +153,10 @@ namespace Zmija
                 }
             }
         }
+
+        /// <summary>
+        /// Metoda registrira da je gotov unos te resetira potrebne parametre.
+        /// </summary>
         private void ZmijaForm_KeyUp(object sender, KeyEventArgs e)
         {
             if (factor != 1)
@@ -174,6 +181,10 @@ namespace Zmija
             }
         }
 
+        /// <summary>
+        /// Metoda pretrazuje matricu te vraca nepopunjeno (nasumicno odabrano) mjesto u matrici preko njegovih koordinata 
+        /// pritom pazeci da ne odabere lokaciju koja je u neposrednoj blizini glave zmije.
+        /// </summary>
         private (int, int) FindEmptyField()
         {
             var filteredList = Enumerable.Range(0, matrix.GetLength(0))
@@ -186,6 +197,10 @@ namespace Zmija
             return (newField.i, newField.j);
         }
 
+        /// <summary>
+        /// Metoda prima popis svih tipova hrane koje mozemo stvoriti. Stvara nasumicno odabran tip hrane na nasumicnoj, nezauzetoj lokaciji
+        /// te vraca stvorenu hranu u obliku klase BasicFood.
+        /// </summary>
         private BasicFood CreateFood(List<Type> availableTypes)
         {
             List<Type> unusableTypes = new List<Type>();
@@ -215,6 +230,10 @@ namespace Zmija
             return (BasicFood)food;
         }
 
+        /// <summary>
+        /// Metoda prima tip hrane. Kreira taj tip hrane i stavlja ju na nasumicno odabranu nezauzetu lokaciju na ploci
+        /// te vraca stvorenu hranu u obliku klase BasicFood.
+        /// </summary>
         private BasicFood CreateFood(Type type)
         {
             object food = Activator.CreateInstance(type);
@@ -229,6 +248,11 @@ namespace Zmija
             return (BasicFood)food;
         }
 
+        /// <summary>
+        /// Metoda prima poziciju na kojoj zelimo staviti ciglu. Kreira ciglu te ukoliko se na toj poziciji
+        /// vec nalazi hana stavlja tu hranu na nasumicno odabranu, nezauzetu lokaciju na ploci.
+        /// Vraca stvorenu ciglu kao klasu BasicFood.
+        /// </summary>
         private BasicFood CreateBrick(int xPosition, int yPosition)
         {
             Type type = typeof(BorderBlock);
@@ -255,9 +279,12 @@ namespace Zmija
         }
 
 
-
-        //U sljedecu funkciju se ulazi svaki put kada zmija napravi pomak
-        //a na levelu je vecem od 1 pa sam dodala par uvjeta da se odvrsi samo jednom po levelu
+        /// <summary>
+        /// Metoda se poziva svako konacno vremena (definiranog varijablom timer). Metoda naizmjenice obraduje kretanje zmije 
+        /// te regulira povecavanja tezine igrice i pojavu vremenski ogranicene hrane.
+        /// Svakim novim levelom dodaje novu hranu, smanjuje granice ploce te posebno na desetom levelu dodaje 
+        /// zlonamjernu zmiju kao prepreku trenutnoj. Konacno, obnavlja plocu u skladu sa odigranim potezom.
+        /// </summary>
         private void timer_Tick(object sender, EventArgs e)
         {
             if (player)
