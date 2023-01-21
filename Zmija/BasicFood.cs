@@ -15,7 +15,7 @@ namespace Zmija
 
         public BasicFood() : base()
         {
-            Points = 20;
+            Points = 50;
             Color = Brushes.Red;
         }
 

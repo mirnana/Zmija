@@ -14,7 +14,7 @@ namespace Zmija
 
         public TimedFood() : base()
         {
-            Timer = 300;
+            Timer = 3000;
         }
 
         public override bool CheckTimer()

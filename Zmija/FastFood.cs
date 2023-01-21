@@ -16,8 +16,17 @@ namespace Zmija
 
         public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
-            //change speed (return?)
-            timer = timer - 50;
+            Unit rear = new Unit
+            {
+                X = Snake[Snake.Count - 1].X,
+                Y = Snake[Snake.Count - 1].Y,
+            };
+            Snake.Add(rear);
+            if(timer > 2)
+            {
+                timer = timer - 1;
+            }
+            
             return (score + Points, lives, timer, false);
         }
     }
