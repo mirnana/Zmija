@@ -100,9 +100,9 @@
             // invincibility
             // 
             this.invincibility.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.invincibility.Location = new System.Drawing.Point(453, 680);
+            this.invincibility.Location = new System.Drawing.Point(442, 665);
             this.invincibility.Name = "invincibility";
-            this.invincibility.Size = new System.Drawing.Size(65, 10);
+            this.invincibility.Size = new System.Drawing.Size(125, 26);
             this.invincibility.TabIndex = 7;
             // 
             // ZmijaForm
