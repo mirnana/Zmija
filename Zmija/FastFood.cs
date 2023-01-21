@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Zmija
 {
+    /// <summary>
+    /// Ova podklasa predstavlja tip hrane koji, ukoliko ga zmija pojede, ubrzava kretanje zmije. 
+    /// Zmija naraste za jednu jedinicu.
+    /// Igrac dobije 20 bodova.
+    /// </summary>
     internal class FastFood : BasicFood
     {
         public FastFood() : base()

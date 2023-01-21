@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Zmija
 {
+    /// <summary>
+    /// Ova podklasa predstavlja tip hrane koji, ukoliko ga zmija pojede, igracu dodaje jedan zivot. 
+    /// Ova vrsta hrane se pojavljuje u trajanju od 30 sekundi.
+    /// </summary>
     internal class LifeFood : TimedFood
     {
         public LifeFood() : base()

@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Zmija
 {
+    /// <summary>
+    /// Klasa predstavlja opcenite karakteristike vecine tipova hrane. Ukoliko ju zmija pojede, 
+    /// donosi 20 bodova igracu te produljuje zmiju za jednu jedinicu.
+    /// </summary>
     internal class BasicFood : Unit
     {
         public int Points { get; set; }

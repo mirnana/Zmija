@@ -9,6 +9,10 @@ namespace Zmija
 {
     internal class SlowFood : BasicFood
     {
+        /// <summary>
+        /// Ova podklasa predstavlja tip hrane koji, ukoliko ga zmija pojede, usporava kretanje zmije. 
+        /// Zmija naraste za jednu jedinicu.
+        /// </summary>
         public SlowFood() : base()
         {
             Color = Brushes.Yellow;

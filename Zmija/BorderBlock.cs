@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Zmija
 {
+    /// <summary>
+    /// Ova podklasa predstavlja ciglu od kojih gradimo zidove, ukoliko ga zmija dotakne igrac gubi jedan zivot.
+    /// </summary>
     internal class BorderBlock : BasicFood
     {
         public BorderBlock() : base()

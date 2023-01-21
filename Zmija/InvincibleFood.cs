@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Zmija
 {
+    /// <summary>
+    /// Ova podklasa predstavlja tip hrane koji, ukoliko ga zmija pojede, cini zmiju imunu na doticanje sa zidovima, sa drugim zmijama te sa samom sobom. 
+    /// Ova vrsta hrane se pojavljuje u trajanju od 30 sekundi.
+    /// </summary>
     internal class InvincibleFood : TimedFood
     {
         public InvincibleFood() : base()
