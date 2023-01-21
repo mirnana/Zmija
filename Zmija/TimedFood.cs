@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Timers;
 
 namespace Zmija
 {
     internal class TimedFood : BasicFood
     {
-        int Timer;
+        Timer timer;
+        bool timerActive;
 
         public TimedFood() : base()
         {
-            Timer = 3000;
+            timer = new Timer(30000);
+            timer.Elapsed += TimerElapsed;
+            timer.Start();
+            timerActive = true;
         }
 
         public override bool CheckTimer()
         {
-            if(Timer > 0)
-            {
-                Timer--;
-                return true;
-            }
-            return false;
+            return timerActive;
+        }
+
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            timerActive = false;
+            timer.Stop();
         }
     }
 }

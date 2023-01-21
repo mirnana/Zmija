@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing.Drawing2D;
+using System.Timers;
 
 namespace Zmija
 {
@@ -23,7 +24,9 @@ namespace Zmija
         private int level;
         private int levelLimit;
         private string[,] matrix;
-        private int invTimer;
+        private System.Timers.Timer invTimer;
+        private bool invTimerActive;
+        private DateTime invStartTime;
         private int sleepy_timer;
         private bool player;
         private List<Unit> EnemySnake = new List<Unit>();
@@ -195,7 +198,7 @@ namespace Zmija
                 unusableTypes.Add(typeof(FastFood));
             if (scoreInt < 10)
                 unusableTypes.Add(typeof(BadFood));
-            if (invTimer > 0)
+            if (invTimerActive)
                 unusableTypes.Add(typeof(InvincibleFood));
             if (Snake.Count < 5)
                 unusableTypes.Add(typeof(ShortFood));
@@ -322,7 +325,7 @@ namespace Zmija
 
                                 for (int j = 1; j < Snake.Count; j++)
                                 {
-                                    if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y && invTimer == 0)
+                                    if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y && !invTimerActive)
                                     {
                                         DecreaseLives();
                                     }
@@ -330,7 +333,7 @@ namespace Zmija
 
                                 for (int j = 0; j < EnemySnake.Count; j++)
                                 {
-                                    if (Snake[i].X == EnemySnake[j].X && Snake[i].Y == EnemySnake[j].Y && invTimer == 0)
+                                    if (Snake[i].X == EnemySnake[j].X && Snake[i].Y == EnemySnake[j].Y && !invTimerActive)
                                     {
                                         DecreaseLives();
                                     }
@@ -343,7 +346,7 @@ namespace Zmija
                                     {
                                         EatFood(Food[int.Parse(s.Substring(1).ToString())]);
                                     }
-                                    else if (s == "b" && invTimer == 0)
+                                    else if (s == "b" && !invTimerActive)
                                     {
                                         DecreaseLives();
                                     }
@@ -383,7 +386,7 @@ namespace Zmija
 
                         for (int j = 0; j < Snake.Count; j++)
                         {
-                            if (Snake[j].X == 17 && Snake[j].Y == 2 && invTimer == 0)
+                            if (Snake[j].X == 17 && Snake[j].Y == 2 && !invTimerActive)
                             {
                                 DecreaseLives();
                             }
@@ -466,7 +469,7 @@ namespace Zmija
 
                                     for (int j = 0; j < Snake.Count; j++)
                                     {
-                                        if (EnemySnake[i].X == Snake[j].X && EnemySnake[i].Y == Snake[j].Y && invTimer == 0)
+                                        if (EnemySnake[i].X == Snake[j].X && EnemySnake[i].Y == Snake[j].Y && !invTimerActive)
                                         {
                                             DecreaseLives();
                                         }
@@ -605,19 +608,12 @@ namespace Zmija
                 }
             }
 
-            if(invTimer > 0)
+            if (invTimerActive)
             {
-                invTimer--;
                 //setScoreText(); umjesto cijelog if elsea
-                if(invTimer == 0)
-                {
-                    invincibility.Text = "";
-                }
-                else if(invTimer % 100 == 9)
-                {
-                    invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 100);
-                }
+                invincibility.Text = "INV TIMER: " + Math.Ceiling((double)(30000 - (int)(DateTime.Now - invStartTime).TotalMilliseconds) / 1000);
             }
+            else invincibility.Text = "";
 
 
             canvas.Invalidate();
@@ -654,7 +650,7 @@ namespace Zmija
             {
                 if (i == 0)
                 {
-                    if(invTimer > 0)
+                    if(invTimerActive)
                     {
                         color = Brushes.DarkViolet;
                     }
@@ -665,7 +661,7 @@ namespace Zmija
                 }
                 else
                 {
-                    if (invTimer > 0)
+                    if (invTimerActive)
                     {
                         color = Brushes.Violet;
                     }
@@ -724,9 +720,10 @@ namespace Zmija
 
             sleepy_timer = 5;
             currentSleep = 5;
-            if(invTimer > 0)
+            if(invTimerActive)
             {
-                invTimer = 0;
+                invTimerActive = false;
+                invTimer.Stop();
                 //setScoreText();
                 invincibility.Text = "";
             }
@@ -782,9 +779,13 @@ namespace Zmija
 
             if (inv)
             {
+                invTimer = new System.Timers.Timer(30000);
+                invTimer.Elapsed += InvTimerElapsed;
+                invStartTime = DateTime.Now;
+                invTimer.Start();
+                invTimerActive = true;
                 //setScoreText();
-                invTimer = 3000;
-                invincibility.Text = "INV TIMER: " + Math.Ceiling((double)invTimer / 100);
+                invincibility.Text = "INV TIMER: " + Math.Ceiling((double)(30000 - (int)(DateTime.Now - invStartTime).TotalMilliseconds) / 1000);
             }
 
             int ind = Food.IndexOf(food);
@@ -805,6 +806,12 @@ namespace Zmija
             }
         }
 
+        private void InvTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            invTimerActive = false;
+            invTimer.Stop();
+        }
+
         private void RestartGame()
         {
             rows = canvas.Height / settings.UnitHeight - 1;
@@ -817,7 +824,7 @@ namespace Zmija
             scoreInt = 0;
             level = 1;
             levelLimit = 100;
-            invTimer = 0;
+            invTimerActive = false;
             // dodati brzinu i "do iduceg levela"?
             //setScoreText();
             score.Text = "BODOVI: " + scoreInt;
@@ -869,9 +876,9 @@ namespace Zmija
             score.Text = "BODOVI: " + scoreInt + Environment.NewLine
                         + "ŽIVOTI: " + lives + Environment.NewLine
                         + "LEVEL: " + level + Environment.NewLine;
-            if (invTimer != 0)
+            if (invTimerActive)
             {
-                score.Text += "INV TIMER: " + Math.Ceiling((double)invTimer / 10);
+                score.Text += "INV TIMER: " + Math.Ceiling((double)(30000 - (int)(DateTime.Now - invStartTime).TotalMilliseconds) / 1000);
             }
         }
     }
