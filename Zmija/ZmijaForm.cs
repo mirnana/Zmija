@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing.Drawing2D;
+using System.Timers;
 
 namespace Zmija
 {
@@ -22,13 +23,18 @@ namespace Zmija
         private int level;
         private int levelLimit;
         private string[,] matrix;
-        private int invTimer;
+        private System.Timers.Timer invTimer;
+        private bool invTimerActive;
+        private DateTime invStartTime;
         private int sleepy_timer;
         private bool player;
         private List<Unit> EnemySnake = new List<Unit>();
         private string enemySnakeDirection;
         private int currentSleep;
         private int enemySleep;
+        private bool[] new_direction = new bool[4]; //left right up down
+        private List<String> movement = new List<string>();
+        private string snake_move;
 
         Random rand = new Random();
         public static Settings settings;
@@ -79,9 +85,10 @@ namespace Zmija
                     factor = int.Parse(s.Substring(s.Length - 1));
                 }
 
-                if (e.KeyCode.ToString() == settings.GoLeftKey && settings.Direction != "right")
+                if (e.KeyCode.ToString() == settings.GoLeftKey)
                 {
                     left = true;
+                    movement.Add("left");
                     if (e.Shift)
                     {
                         int koliko = Snake[0].X - 1;
@@ -93,9 +100,11 @@ namespace Zmija
                         factor = koliko;
                     }
                 }
-                if (e.KeyCode.ToString() == settings.GoRightKey && settings.Direction != "left")
+                if (e.KeyCode.ToString() == settings.GoRightKey)
                 {
                     right = true;
+                    movement.Add("right");
+
                     if (e.Shift)
                     {
                         int koliko = cols - Snake[0].X - 1;
@@ -107,9 +116,11 @@ namespace Zmija
                         factor = koliko;
                     }
                 }
-                if (e.KeyCode.ToString() == settings.GoUpKey && settings.Direction != "down")
+                if (e.KeyCode.ToString() == settings.GoUpKey)
                 {
                     up = true;
+                    movement.Add("up");
+
                     if (e.Shift)
                     {
                         int koliko = Snake[0].Y - 1;
@@ -121,9 +132,11 @@ namespace Zmija
                         factor = koliko;
                     }
                 }
-                if (e.KeyCode.ToString() == settings.GoDownKey && settings.Direction != "up")
+                if (e.KeyCode.ToString() == settings.GoDownKey)
                 {
                     down = true;
+                    movement.Add("down");
+
                     if (e.Shift)
                     {
                         int koliko = rows - Snake[0].Y - 1;
@@ -182,7 +195,7 @@ namespace Zmija
                 unusableTypes.Add(typeof(FastFood));
             if (scoreInt < 10)
                 unusableTypes.Add(typeof(BadFood));
-            if (invTimer > 0)
+            if (invTimerActive)
                 unusableTypes.Add(typeof(InvincibleFood));
             if (Snake.Count < 5)
                 unusableTypes.Add(typeof(ShortFood));
@@ -249,27 +262,38 @@ namespace Zmija
         {
             if (player)
             {
-                if (left && settings.Direction != "right")
+                if (factor != 1 || currentSleep == 1)
                 {
+                    if (movement.Count > 0)
+                        snake_move = movement.Last();
+                    else snake_move = settings.Direction;
+                    movement.Clear();
+                switch (snake_move)
+                {
+                case "left": 
+                    if( settings.Direction != "right")
                     settings.Direction = "left";
-                }
-                if (right && settings.Direction != "left")
-                {
-                    settings.Direction = "right";
-                }
-                if (up && settings.Direction != "down")
-                {
-                    settings.Direction = "up";
-                }
-                if (down && settings.Direction != "up")
-                {
-                    settings.Direction = "down";
-                }
+                    break;
+                 case "right":
+                    if (settings.Direction != "left")
+                       settings.Direction = "right";
+                    break;
+                case "up":
+                    if (settings.Direction != "down")
+                       settings.Direction = "up";
+                    break;
+                case "down":
+                    if (settings.Direction != "up")
+                       settings.Direction = "down";
+                    break;
+                   default: break;
+                    }
+              
+                       
 
-                for (int k = 0; k < factor; k++)
+                    for (int k = 0; k < factor; k++)
                 {
-                    if(factor != 1 || currentSleep == 1)
-                    {
+                    
                         for (int i = Snake.Count - 1; i >= 0; i--)
                         {
                             if (i == 0)
@@ -297,7 +321,7 @@ namespace Zmija
 
                                 for (int j = 1; j < Snake.Count; j++)
                                 {
-                                    if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y && invTimer == 0)
+                                    if (Snake[i].X == Snake[j].X && Snake[i].Y == Snake[j].Y && !invTimerActive)
                                     {
                                         DecreaseLives();
                                     }
@@ -305,7 +329,7 @@ namespace Zmija
 
                                 for (int j = 0; j < EnemySnake.Count; j++)
                                 {
-                                    if (Snake[i].X == EnemySnake[j].X && Snake[i].Y == EnemySnake[j].Y && invTimer == 0)
+                                    if (Snake[i].X == EnemySnake[j].X && Snake[i].Y == EnemySnake[j].Y && !invTimerActive)
                                     {
                                         DecreaseLives();
                                     }
@@ -318,7 +342,7 @@ namespace Zmija
                                     {
                                         EatFood(Food[int.Parse(s.Substring(1).ToString())]);
                                     }
-                                    else if (s == "b" && invTimer == 0)
+                                    else if (s == "b" && !invTimerActive)
                                     {
                                         DecreaseLives();
                                     }
@@ -333,9 +357,10 @@ namespace Zmija
                             }
                         }
                         currentSleep = sleepy_timer;
-                    }
+                    
                 }
-                if(currentSleep > 1)
+                }
+                if (currentSleep > 1)
                     currentSleep--;
 
                 factor = 1;
@@ -357,7 +382,7 @@ namespace Zmija
 
                         for (int j = 0; j < Snake.Count; j++)
                         {
-                            if (Snake[j].X == 17 && Snake[j].Y == 2 && invTimer == 0)
+                            if (Snake[j].X == 17 && Snake[j].Y == 2 && !invTimerActive)
                             {
                                 DecreaseLives();
                             }
@@ -440,7 +465,7 @@ namespace Zmija
 
                                     for (int j = 0; j < Snake.Count; j++)
                                     {
-                                        if (EnemySnake[i].X == Snake[j].X && EnemySnake[i].Y == Snake[j].Y && invTimer == 0)
+                                        if (EnemySnake[i].X == Snake[j].X && EnemySnake[i].Y == Snake[j].Y && !invTimerActive)
                                         {
                                             DecreaseLives();
                                         }
@@ -577,13 +602,8 @@ namespace Zmija
                 }
             }
 
-            if(invTimer > 0)
-            {
-                invTimer--;
-                setScoreText(); 
-            }
-
-
+            setScoreText(); 
+            
             canvas.Invalidate();
             //Thread.Sleep(sleepy_timer);
 
@@ -618,7 +638,7 @@ namespace Zmija
             {
                 if (i == 0)
                 {
-                    if(invTimer > 0)
+                    if(invTimerActive)
                     {
                         color = Brushes.DarkViolet;
                     }
@@ -629,7 +649,7 @@ namespace Zmija
                 }
                 else
                 {
-                    if (invTimer > 0)
+                    if (invTimerActive)
                     {
                         color = Brushes.Violet;
                     }
@@ -683,9 +703,10 @@ namespace Zmija
 
             sleepy_timer = 5;
             currentSleep = 5;
-            if(invTimer > 0)
+            if(invTimerActive)
             {
-                invTimer = 0;
+                invTimerActive = false;
+                invTimer.Stop();
             }
 
             setScoreText();
@@ -738,7 +759,11 @@ namespace Zmija
 
             if (inv)
             {
-                invTimer = 3000;
+                invTimer = new System.Timers.Timer(30000);
+                invTimer.Elapsed += InvTimerElapsed;
+                invStartTime = DateTime.Now;
+                invTimer.Start();
+                invTimerActive = true;
                 setScoreText();
             }
 
@@ -760,6 +785,12 @@ namespace Zmija
             }
         }
 
+        private void InvTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            invTimerActive = false;
+            invTimer.Stop();
+        }
+
         private void RestartGame()
         {
             rows = canvas.Height / settings.UnitHeight - 1;
@@ -772,11 +803,11 @@ namespace Zmija
             scoreInt = 0;
             level = 1;
             levelLimit = 100;
-            invTimer = 0;
+            invTimerActive = false;
             // dodati brzinu i "do iduceg levela"?
             setScoreText();
-            
-            Unit head = new Unit { X = 10, Y = 10 };
+
+            Unit head = new Unit { X = 15, Y = 12 };
             Snake.Add(head);
 
             for (int i = 0; i < 5; i++)
@@ -823,9 +854,9 @@ namespace Zmija
             score.Text = "BODOVI: " + scoreInt + Environment.NewLine
                         + "ŽIVOTI: " + lives + Environment.NewLine
                         + "LEVEL: " + level + Environment.NewLine;
-            if (invTimer != 0)
+            if (invTimerActive)
             {
-                score.Text += "TIMER NEPOBJEDIVOSTI: " + Math.Ceiling((double)invTimer / 100);
+                score.Text += "TIMER NEPOBJEDIVOSTI: " + Math.Ceiling((double)(30000 - (int)(DateTime.Now - invStartTime).TotalMilliseconds) / 1000);
             }
         }
     }

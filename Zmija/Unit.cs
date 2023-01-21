@@ -16,8 +16,8 @@ namespace Zmija
 
         public Unit()
         {
-            X = 0;
-            Y = 0;
+            X = 15;
+            Y = 11;
         }
     }
 }
