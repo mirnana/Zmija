@@ -96,7 +96,6 @@
             this.livesAndLevel.Name = "livesAndLevel";
             this.livesAndLevel.Size = new System.Drawing.Size(58, 24);
             this.livesAndLevel.TabIndex = 6;
-            this.livesAndLevel.Click += new System.EventHandler(this.livesAndLevel_Click);
             // 
             // invincibility
             // 

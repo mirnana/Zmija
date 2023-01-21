@@ -30,6 +30,7 @@ namespace Zmija
         private string enemySnakeDirection;
         private int currentSleep;
         private int enemySleep;
+        private bool[] new_direction = new bool[4]; //left right up down
 
 
 
@@ -83,7 +84,7 @@ namespace Zmija
                     factor = int.Parse(s.Substring(s.Length - 1));
                 }
 
-                if (e.KeyCode.ToString() == settings.GoLeftKey && settings.Direction != "right")
+                if (e.KeyCode.ToString() == settings.GoLeftKey)
                 {
                     left = true;
                     if (e.Shift)
@@ -97,7 +98,7 @@ namespace Zmija
                         factor = koliko;
                     }
                 }
-                if (e.KeyCode.ToString() == settings.GoRightKey && settings.Direction != "left")
+                if (e.KeyCode.ToString() == settings.GoRightKey)
                 {
                     right = true;
                     if (e.Shift)
@@ -111,7 +112,7 @@ namespace Zmija
                         factor = koliko;
                     }
                 }
-                if (e.KeyCode.ToString() == settings.GoUpKey && settings.Direction != "down")
+                if (e.KeyCode.ToString() == settings.GoUpKey)
                 {
                     up = true;
                     if (e.Shift)
@@ -125,7 +126,7 @@ namespace Zmija
                         factor = koliko;
                     }
                 }
-                if (e.KeyCode.ToString() == settings.GoDownKey && settings.Direction != "up")
+                if (e.KeyCode.ToString() == settings.GoDownKey)
                 {
                     down = true;
                     if (e.Shift)
@@ -258,15 +259,15 @@ namespace Zmija
                 {
                     settings.Direction = "left";
                 }
-                if (right && settings.Direction != "left")
+                else if (right && settings.Direction != "left")
                 {
                     settings.Direction = "right";
                 }
-                if (up && settings.Direction != "down")
+                else if (up && settings.Direction != "down")
                 {
                     settings.Direction = "up";
                 }
-                if (down && settings.Direction != "up")
+                else if (down && settings.Direction != "up")
                 {
                     settings.Direction = "down";
                 }
@@ -729,11 +730,6 @@ namespace Zmija
                 settings.Direction = "down";
                 canvas.Invalidate();
             }
-        }
-
-        private void livesAndLevel_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void GameOver()
