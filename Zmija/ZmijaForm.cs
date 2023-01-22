@@ -111,6 +111,7 @@ namespace Zmija
             this.KeyPreview = true;
             InitializeComponent();
             settings = new Settings();
+            setHelpText();
         }
 
         /// <summary>
@@ -133,6 +134,7 @@ namespace Zmija
                 {
                     timer.Start();
                 }
+                setHelpText();
             }
             if (e.Control && e.KeyCode.ToString() == settings.InstructionsKey)
             {
@@ -939,6 +941,16 @@ namespace Zmija
             {
                 score.Text += "TIMER NEPOBJEDIVOSTI: " + Math.Ceiling((double)(30000 - (int)(DateTime.Now - invStartTime).TotalMilliseconds) / 1000);
             }
+        }
+
+        /// <summary>
+        /// postavlja pomoćni tekst u za to namijenjeni Label
+        /// </summary>
+        private void setHelpText()
+        {
+            help.Text = "POSTAVKE: ctrl + " + settings.SettingsKey + Environment.NewLine
+                        + "UPUTE: ctrl + " + settings.InstructionsKey + Environment.NewLine
+                        + "ZATVARANJE PROZORA: " + settings.CloseKey;
         }
     }
 }

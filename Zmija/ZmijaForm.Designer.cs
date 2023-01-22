@@ -74,7 +74,6 @@
             this.help.Name = "help";
             this.help.Size = new System.Drawing.Size(200, 60);
             this.help.TabIndex = 4;
-            this.help.Text = "POSTAVKE: ctrl  + P\r\nUPUTE: ctrl + U";
             // 
             // score
             // 
