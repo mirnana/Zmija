@@ -18,6 +18,9 @@ namespace Zmija
             Color = Brushes.Magenta;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada se hrana pojede. Omogucava efekt neunistivosti.
+        /// </summary>
         public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             return (score, lives, timer, true);

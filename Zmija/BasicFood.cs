@@ -14,7 +14,13 @@ namespace Zmija
     /// </summary>
     internal class BasicFood : Unit
     {
+        /// <summary>
+        /// Broj bodova koje nosi svaki pojedeni komad hrane
+        /// </summary>
         public int Points { get; set; }
+        /// <summary>
+        /// Boja pojedine vrste hrane
+        /// </summary>
         public Brush Color { get; set; }
 
         public BasicFood() : base()
@@ -23,6 +29,11 @@ namespace Zmija
             Color = Brushes.Red;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada se hrana pojede. Vraca parametre koje je moguce promijeniti.
+        /// Moze dodati ili oduzeti jedinice zmije.
+        /// U osnovnoj verziji dodaje jednu jedinicu i 20 bodova.
+        /// </summary>
         public virtual (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             Unit rear = new Unit
@@ -34,6 +45,9 @@ namespace Zmija
             return (score + Points, lives, timer, false);
         }
 
+        /// <summary>
+        /// Metoda za provjeru trajanja hrane. U osnovnoj klasi hrana ne istjece.
+        /// </summary>
         public virtual bool CheckTimer() { return true; }
     }
 }

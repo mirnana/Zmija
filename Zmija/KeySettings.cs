@@ -21,6 +21,9 @@ namespace Zmija
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Metoda se poziva kada želimo izmijeniti tipku koja aktivira kretanje ulijevo.
+        /// </summary>
         private void izmijeni_Click_left(object sender, string e)
         {
             // korisnik je potvrdio koju tipku želi pa mijenjamo tu vrijednost u glavnoj formi
@@ -36,12 +39,18 @@ namespace Zmija
             }
         }
 
+        /// <summary>
+        /// Metoda se poziva pri učitavanju kontrole za kretanje ulijevo.
+        /// </summary>
         private void Load_left(object sender, EventArgs e)
         {
             // pri učitavanju svake kontrole moramo dohvatiti potrebnu informaciju iz glavne forme
             ((KeyChange)sender).key = ZmijaForm.settings.GoLeftKey;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada želimo izmijeniti tipku koja aktivira kretanje udesno.
+        /// </summary>
         private void izmijeni_Click_right(object sender, string e)
         {
             ZmijaForm.settings.GoRightKey = e;
@@ -54,11 +63,17 @@ namespace Zmija
             }
         }
 
+        /// <summary>
+        /// Metoda se poziva pri učitavanju kontrole za kretanje udesno.
+        /// </summary>
         private void Load_right(object sender, EventArgs e)
         {
             ((KeyChange)sender).key = ZmijaForm.settings.GoRightKey;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada želimo izmijeniti tipku koja aktivira kretanje prema gore.
+        /// </summary>
         private void izmijeni_Click_up(object sender, string e)
         {
             ZmijaForm.settings.GoUpKey = e;
@@ -71,11 +86,17 @@ namespace Zmija
             }
         }
 
+        /// <summary>
+        /// Metoda se poziva pri učitavanju kontrole za kretanje prema gore.
+        /// </summary>
         private void Load_up(object sender, EventArgs e)
         {
             ((KeyChange)sender).key = ZmijaForm.settings.GoUpKey;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada želimo izmijeniti tipku koja aktivira kretanje prema dolje.
+        /// </summary>
         private void izmijeni_Click_down(object sender, string e)
         {
             ZmijaForm.settings.GoDownKey = e;
@@ -88,36 +109,57 @@ namespace Zmija
             }
         }
 
+        /// <summary>
+        /// Metoda se poziva pri učitavanju kontrole za kretanje prema dolje.
+        /// </summary>
         private void Load_down(object sender, EventArgs e)
         {
             ((KeyChange)sender).key = ZmijaForm.settings.GoDownKey;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada želimo izmijeniti tipku koja otvara prozor s postavkama.
+        /// </summary>
         private void keyChange_keySettings_izmijeni_Click(object sender, string e)
         {
             ZmijaForm.settings.SettingsKey = e;
         }
 
+        /// <summary>
+        /// Metoda se poziva pri učitavanju kontrole za otvaranje prozora s postavkama.
+        /// </summary>
         private void keyChange_keySettings_Load(object sender, EventArgs e)
         {
             ((KeyChange)sender).key = ZmijaForm.settings.SettingsKey;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada želimo izmijeniti tipku koja otvara prozor s uputama.
+        /// </summary>
         private void keyChange_instructions_izmijeni_Click(object sender, string e)
         {
             ZmijaForm.settings.InstructionsKey = e;
         }
 
+        /// <summary>
+        /// Metoda se poziva pri učitavanju kontrole za otvaranje prozora s uputama.
+        /// </summary>
         private void keyChange_instructions_Load(object sender, EventArgs e)
         {
             ((KeyChange)sender).key = ZmijaForm.settings.InstructionsKey;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada želimo izmijeniti tipku koja zatvara prozor.
+        /// </summary>
         private void keyChange_close_izmijeni_Click(object sender, string e)
         {
             ZmijaForm.settings.CloseKey = e;
         }
 
+        /// <summary>
+        /// Metoda se poziva pri učitavanju kontrole za zatvaranje prozora.
+        /// </summary>
         private void keyChange_close_Load(object sender, EventArgs e)
         {
             ((KeyChange)sender).key = ZmijaForm.settings.CloseKey;

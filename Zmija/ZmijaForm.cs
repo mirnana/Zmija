@@ -12,31 +12,98 @@ namespace Zmija
 {
     public partial class ZmijaForm : Form
     {
+        /// <summary>
+        /// Lista hrane i zidova na ploci
+        /// </summary>
         private List<BasicFood> Food = new List<BasicFood>();
+        /// <summary>
+        /// Lista jedinica zmije
+        /// </summary>
         private List<Unit> Snake = new List<Unit>();
+        /// <summary>
+        /// Bodovi
+        /// </summary>
         private int scoreInt = 0;
+        /// <summary>
+        /// Zivoti
+        /// </summary>
         private int lives = 3;
+        /// <summary>
+        /// Faktor za kretanje za neki broj
+        /// </summary>
         private int factor = 1;
-        private bool left, right, up, down;
+        /// <summary>
+        /// Dimenzije ploce
+        /// </summary>
         private int rows, cols;
+        /// <summary>
+        /// Dopustene klase hrane
+        /// </summary>
         private List<Type> types = new List<Type>();
+        /// <summary>
+        /// Trenutni level (1-10)
+        /// </summary>
         private int level;
+        /// <summary>
+        /// Razlika izmedju levela
+        /// </summary>
         private int levelLimit;
+        /// <summary>
+        /// Matrica koja pamti polozaje hrane i zidova na ploci
+        /// </summary>
         private string[,] matrix;
+        /// <summary>
+        /// Timer koji prati trajanje efekta neunistivosti
+        /// </summary>
         private System.Timers.Timer invTimer;
+        /// <summary>
+        /// Varijabla koja oznacava je li efekt neunistivosti trenutno aktivan
+        /// </summary>
         private bool invTimerActive;
+        /// <summary>
+        /// Varijabla koja pamti pocetno vrijeme aktivacije efekta neunistivosti
+        /// </summary>
         private DateTime invStartTime;
+        /// <summary>
+        /// Brzina kretanja zmije (manji timer - veca brzina)
+        /// </summary>
         private int sleepy_timer;
+        /// <summary>
+        /// Varijabla koja oznacava pomice li se trenutno nasa ili protivnicka zmija
+        /// </summary>
         private bool player;
+        /// <summary>
+        /// Lista jedinica protivnicke zmije
+        /// </summary>
         private List<Unit> EnemySnake = new List<Unit>();
+        /// <summary>
+        /// Trenutni smjer kretanja protivnicke zmije
+        /// </summary>
         private string enemySnakeDirection;
+        /// <summary>
+        /// Kontrola brzine zmije
+        /// </summary>
         private int currentSleep;
+        /// <summary>
+        /// Kontrola brzine protivnicke zmije
+        /// </summary>
         private int enemySleep;
-        private bool[] new_direction = new bool[4]; //left right up down
+        /// <summary>
+        /// Lista koji pamti odabrane smjerove
+        /// </summary>
         private List<String> movement = new List<string>();
+        /// <summary>
+        /// Smjer kretanja zmije
+        /// </summary>
         private string snake_move;
 
+        /// <summary>
+        /// Random varijabla za odabir nasumicnih mjesta na ploci
+        /// </summary>
         Random rand = new Random();
+        /// <summary>
+        /// Postavke za kretanje
+        /// </summary>
         public static Settings settings;
 
         public ZmijaForm()
@@ -90,7 +157,6 @@ namespace Zmija
 
                 if (e.KeyCode.ToString() == settings.GoLeftKey)
                 {
-                    left = true;
                     movement.Add("left");
                     if (e.Shift)
                     {
@@ -105,7 +171,6 @@ namespace Zmija
                 }
                 if (e.KeyCode.ToString() == settings.GoRightKey)
                 {
-                    right = true;
                     movement.Add("right");
 
                     if (e.Shift)
@@ -121,7 +186,6 @@ namespace Zmija
                 }
                 if (e.KeyCode.ToString() == settings.GoUpKey)
                 {
-                    up = true;
                     movement.Add("up");
 
                     if (e.Shift)
@@ -137,7 +201,6 @@ namespace Zmija
                 }
                 if (e.KeyCode.ToString() == settings.GoDownKey)
                 {
-                    down = true;
                     movement.Add("down");
 
                     if (e.Shift)
@@ -151,33 +214,6 @@ namespace Zmija
                         factor = koliko;
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Metoda registrira da je gotov unos te resetira potrebne parametre.
-        /// </summary>
-        private void ZmijaForm_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (factor != 1)
-            {
-                factor = 1;
-            }
-            if (e.KeyCode.ToString() == settings.GoLeftKey)
-            {
-                left = false;
-            }
-            if (e.KeyCode.ToString() == settings.GoRightKey)
-            {
-                right = false;
-            }
-            if (e.KeyCode.ToString() == settings.GoUpKey)
-            {
-                up = false;
-            }
-            if (e.KeyCode.ToString() == settings.GoDownKey)
-            {
-                down = false;
             }
         }
 
@@ -295,32 +331,30 @@ namespace Zmija
                         snake_move = movement.Last();
                     else snake_move = settings.Direction;
                     movement.Clear();
-                switch (snake_move)
-                {
-                case "left": 
-                    if( settings.Direction != "right")
-                    settings.Direction = "left";
-                    break;
-                 case "right":
-                    if (settings.Direction != "left")
-                       settings.Direction = "right";
-                    break;
-                case "up":
-                    if (settings.Direction != "down")
-                       settings.Direction = "up";
-                    break;
-                case "down":
-                    if (settings.Direction != "up")
-                       settings.Direction = "down";
-                    break;
-                   default: break;
+
+                    switch (snake_move)
+                    {
+                        case "left": 
+                            if( settings.Direction != "right")
+                                settings.Direction = "left";
+                            break;
+                        case "right":
+                            if (settings.Direction != "left")
+                                settings.Direction = "right";
+                            break;
+                        case "up":
+                            if (settings.Direction != "down")
+                                settings.Direction = "up";
+                            break;
+                        case "down":
+                            if (settings.Direction != "up")
+                               settings.Direction = "down";
+                            break;
+                        default: break;
                     }
-              
-                       
 
                     for (int k = 0; k < factor; k++)
-                {
-                    
+                    {
                         for (int i = Snake.Count - 1; i >= 0; i--)
                         {
                             if (i == 0)
@@ -374,7 +408,7 @@ namespace Zmija
                                         DecreaseLives();
                                     }
                                 }
-                                // trenutacno samo provjeravam je li zmija udarila zid glavom
+                                // samo provjeravam je li zmija udarila zid glavom
                                 // ne racuna se ako neki dio zapne na zidu zbog InvincibleFood
                             }
                             else
@@ -383,9 +417,8 @@ namespace Zmija
                                 Snake[i].Y = Snake[i - 1].Y;
                             }
                         }
-                        currentSleep = sleepy_timer;
-                    
-                }
+                    }
+                    currentSleep = sleepy_timer;
                 }
                 if (currentSleep > 1)
                     currentSleep--;
@@ -544,7 +577,6 @@ namespace Zmija
 
             if (level < 10 && scoreInt >= level * levelLimit)
             {
-                // provjeriti, dodati tidove, promjene polja
                 switch (level)
                 {
                     case 1:
@@ -632,15 +664,21 @@ namespace Zmija
             setScoreText(); 
             
             canvas.Invalidate();
-            //Thread.Sleep(sleepy_timer);
 
         }
 
+        /// <summary>
+        /// Metoda se poziva pritiskom na gumb START i poziva metodu koja resetira igru.
+        /// </summary>
         private void start_Click(object sender, EventArgs e)
         {
             RestartGame();
         }
 
+        /// <summary>
+        /// Metoda se poziva svaki put kada obnovimo izgleda canvas-a. Prilikom svakog poziva iznova crta i boji kvadrate
+        /// koji predstavljaju obje zmije, zidove i hranu na trenutnim polozajima.
+        /// </summary>
         private void canvas_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -724,6 +762,11 @@ namespace Zmija
             }
         }
 
+        /// <summary>
+        /// Metoda se poziva kada zmija izgubi zivot izlazeci iz ploce, zabijajuci se u zid ili u drugu zmiju ili kada pojede
+        /// hranu klase DeathFood. Svi parametri koji su promijenjeni ucinkom hrane se resetiraju. Ako je zmija izgubila sve zivote,
+        /// poziva se metoda GameOver, a inace se zmija pomakne na pocetnu poziciju s nepromjenjenom dujinom.
+        /// </summary>
         private void DecreaseLives()
         {
             lives--;
@@ -758,12 +801,21 @@ namespace Zmija
             }
         }
 
+        /// <summary>
+        /// Metoda se poziva kada zmija izgubi sve zivote. Odvijanje igre stane i slika se zamrzne. Moze se zapoceti nova igra
+        /// pritiskom na START.
+        /// </summary>
         private void GameOver()
         {
             timer.Stop();
             start.Enabled = true;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada zmija "pojede" hranu. Poziva se metoda ActivateEffect koja vraca parametre koje su promijenjeni
+        /// zbog ucinka hrane i te promjene se azuriraju u igri. Umjesto pojedene hrane u listu Food se sprema novi objekt hrane.
+        /// Klasa hrane je nasumicna za sve osim prve koja je uvijek BasicFood.
+        /// </summary>
         private void EatFood(BasicFood food)
         {
             int newLives;
@@ -797,7 +849,6 @@ namespace Zmija
             int ind = Food.IndexOf(food);
             if (Food[ind].Color != Brushes.DarkGray)
             {
-                // ostaviti da se moze ponovno stvoriti na istom mjestu?
                 matrix[Food[ind].X, Food[ind].Y] = "";
                 if (ind > 0)
                 {
@@ -812,12 +863,19 @@ namespace Zmija
             }
         }
 
+        /// <summary>
+        /// Metoda se poziva kada istekne timer efekta InvincibleFood. Oznacava da je efekt istekao.
+        /// </summary>
         private void InvTimerElapsed(object sender, ElapsedEventArgs e)
         {
             invTimerActive = false;
             invTimer.Stop();
         }
 
+        /// <summary>
+        /// Metoda se poziva pritiskom na gumb START. Postavljaju se pocetne postavke. Stvara se zmija i jedan objekt hrane
+        /// klase BasicFood. Zapocinje timer koji kontrolira tok igre.
+        /// </summary>
         private void RestartGame()
         {
             rows = canvas.Height / settings.UnitHeight - 1;
@@ -831,7 +889,6 @@ namespace Zmija
             level = 1;
             levelLimit = 100;
             invTimerActive = false;
-            // dodati brzinu i "do iduceg levela"?
             setScoreText();
 
             Unit head = new Unit { X = 15, Y = 12 };
@@ -843,7 +900,6 @@ namespace Zmija
             }
 
             matrix = new string[rows + 1, cols + 1];
-            // microsoft doslovno ne zna bolji nacin
             for (int i = 0; i < rows + 1; i++)
             {
                 for (int j = 0; j < cols + 1; j++)
@@ -853,8 +909,6 @@ namespace Zmija
             }
 
             Food.Clear();
-            // moze se staviti da bira empty field, ali u ovom trenu je sve prazno osim zmije
-            // trenutacno se moze staviti preko zmije
             Food.Add(new BasicFood { X = rand.Next(2, cols), Y = rand.Next(2, rows) });
             // f = food, 0 = index (da zmija odmah zna sto je pojela)
             // b = brick

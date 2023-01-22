@@ -7,6 +7,10 @@ using System.Timers;
 
 namespace Zmija
 {
+    /// <summary>
+    /// Klasa nasljeđuje BasicFood i dodaje objekt Timer. Kada istekne 30 sekundi
+    /// glavnoj klasi se javlja da je hrana istekla i da se treba maknuti s polja.
+    /// </summary>
     internal class TimedFood : BasicFood
     {
         Timer timer;

@@ -17,6 +17,9 @@ namespace Zmija
             Color = Brushes.DarkGray;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada se zmija zabije u zid. Zmija gubi jedan zivot.
+        /// </summary>
         public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             return (score, lives - 1, timer, false);

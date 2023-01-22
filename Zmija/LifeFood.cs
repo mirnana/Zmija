@@ -19,6 +19,9 @@ namespace Zmija
             Color = Brushes.Aqua;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada se hrana pojede. Zmija dobije jedan zivot.
+        /// </summary>
         public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             return (score, lives + 1, timer, false);

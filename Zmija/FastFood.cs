@@ -19,6 +19,10 @@ namespace Zmija
             Color = Brushes.Blue;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada se hrana pojede. Zmija dobiva jednu jedinicu i ubrzava do dozvoljene granice.
+        /// Dodaju se bodovi.
+        /// </summary>
         public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             Unit rear = new Unit

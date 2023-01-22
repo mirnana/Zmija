@@ -18,6 +18,9 @@ namespace Zmija
             Color = Brushes.DarkOrange;
         }
 
+        /// <summary>
+        /// Metoda se poziva kada se hrana pojede. Zmija gubi 3 jedinice i dodaju se bodovi.
+        /// </summary>
         public override (int, int, int, bool) ActivateEffect(List<Unit> Snake, int score, int lives, int timer)
         {
             if(Snake.Count >= 5)

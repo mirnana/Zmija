@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace Zmija
 {
     /// <summary>
-    /// Ova podklasa predstavlja tip hrane koji, ukoliko ga zmija pojede, igrac dobije 50 bodova (standardnih je 20). 
+    /// Ova podklasa predstavlja tip hrane koji, ukoliko ga zmija pojede, igrac dobije 50 bodova (standardnih je 20).
+    /// Ova vrsta hrane se pojavljuje u trajanju od 30 sekundi.
     /// </summary>
     internal class SuperFood : TimedFood
     {

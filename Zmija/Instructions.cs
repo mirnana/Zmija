@@ -21,6 +21,9 @@ namespace Zmija
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Metoda se poziva kada pritisnemo tipku. Ako se radi o odgovarajućoj tipki, prozor se zatvara.
+        /// </summary>
         private void Instructions_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode.ToString() == ZmijaForm.settings.CloseKey)
@@ -29,6 +32,9 @@ namespace Zmija
             }
         }
 
+        /// <summary>
+        /// Metoda crta protivničku zmiju.
+        /// </summary>
         private void pictureBox11_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;

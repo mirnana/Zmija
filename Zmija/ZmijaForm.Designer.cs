@@ -101,7 +101,6 @@
             this.Name = "ZmijaForm";
             this.Text = "Zmija";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ZmijaForm_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ZmijaForm_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             this.ResumeLayout(false);
 

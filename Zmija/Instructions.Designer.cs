@@ -240,8 +240,8 @@
             this.textBox16.ReadOnly = true;
             this.textBox16.Size = new System.Drawing.Size(369, 54);
             this.textBox16.TabIndex = 26;
-            this.textBox16.Text = "uvećava broj bodova za 20;\r\nsivi zidovi i zabijanje u sebe ili protivnika ne ubij" +
-    "u zmiju;\r\nefekt traje 30 sekundi i ova hrana nestaje s ploče nakon 30 sekundi";
+            this.textBox16.Text = "broj bodova ostaje isti;\r\nsivi zidovi i zabijanje u sebe ili protivnika ne ubiju " +
+    "zmiju;\r\nefekt traje 30 sekundi i ova hrana nestaje s ploče nakon 30 sekundi";
             // 
             // textBox15
             // 
@@ -373,7 +373,7 @@
             this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(369, 54);
             this.textBox6.TabIndex = 13;
-            this.textBox6.Text = "uvećava broj bodova za 20;\r\nskraćuje zmiju za 2 jedinice";
+            this.textBox6.Text = "uvećava broj bodova za 20;\r\nskraćuje zmiju za 3 jedinice";
             // 
             // pictureBox6
             // 
